@@ -1,0 +1,1 @@
+<view class="video"><video-item wx:for="{{a}}" wx:for-item="item" wx:key="a" class="videoItem" u-i="{{item.b}}" bind:__l="__l" u-p="{{item.c}}"/><tab-bar u-i="66ed82fc-1" bind:__l="__l"/></view>

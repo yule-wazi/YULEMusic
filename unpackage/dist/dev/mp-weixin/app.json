@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/mainMusic/mainMusic",
+    "pages/mainSearch/mainSearch",
+    "pages/mainDetail/mainDetail",
+    "pages/menuMore/menuMore",
+    "pages/musicPlayer/musicPlayer",
+    "pages/mainVideo/mainVideo",
+    "pages/videoDetail/videoDetail"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {}
+}

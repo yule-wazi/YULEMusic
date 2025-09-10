@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "音乐",
+  "usingComponents": {
+    "uni-search-bar": "../../uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar",
+    "area-header": "../../components/areaHeader/areaHeader",
+    "song-recommend": "../../components/songRecommend/songRecommend",
+    "area-menu": "../../components/areaMenu/areaMenu",
+    "ranking-item": "../../components/rankingItem/rankingItem",
+    "player-bar": "../../components/playerBar/playerBar",
+    "tab-bar": "../../components/tabBar/tabBar"
+  }
+}

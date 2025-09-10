@@ -1,0 +1,1 @@
+<view class="tabBar"><view class="music" bindtap="{{c}}"><image src="{{a}}" mode="heightFix"/><view class="{{['text', b && 'active']}}">音乐</view></view><view class="video" bindtap="{{f}}"><image src="{{d}}" mode="heightFix"/><view class="{{['text', e && 'active']}}">视频</view></view></view>

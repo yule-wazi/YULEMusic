@@ -1,0 +1,1 @@
+<view class="songItems"><view wx:for="{{a}}" wx:for-item="item" wx:key="e"><view class="song" bindtap="{{item.d}}"><view class="index">{{item.a}}</view><view class="songItem"><view class="name">{{item.b}}</view><view class="info"><image class="sq" src="{{b}}" mode="widthFix"/><view class="artist">{{item.c}}</view></view></view></view></view></view>

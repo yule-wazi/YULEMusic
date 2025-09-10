@@ -1,0 +1,1 @@
+<view class="searchSuggest"><view wx:for="{{a}}" wx:for-item="item" wx:key="d"><view class="item" bindtap="{{item.c}}"><view class="icon"><uni-icons wx:if="{{b}}" u-i="{{item.a}}" bind:__l="__l" u-p="{{b}}"/></view><view class="name">{{item.b}}</view></view></view></view>

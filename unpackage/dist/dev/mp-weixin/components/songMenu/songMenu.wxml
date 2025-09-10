@@ -1,0 +1,1 @@
+<view class="songMenu" bindtap="{{d}}"><view class="image"><image class="Img" src="{{a}}" mode="widthFix"/><view class="playCount">{{b}}</view></view><view class="title">{{c}}</view></view>

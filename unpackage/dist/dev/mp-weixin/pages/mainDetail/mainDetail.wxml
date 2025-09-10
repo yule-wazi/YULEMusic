@@ -1,0 +1,1 @@
+<view class="mainDetail"><menu-header wx:if="{{a}}" u-i="09165688-0" bind:__l="__l" u-p="{{b}}"/><song-item wx:if="{{c}}" u-i="09165688-1" bind:__l="__l" u-p="{{c}}"/><player-bar u-i="09165688-2" bind:__l="__l"/></view>

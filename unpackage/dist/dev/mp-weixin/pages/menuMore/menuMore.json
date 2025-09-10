@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "分类",
+  "usingComponents": {
+    "area-header": "../../components/areaHeader/areaHeader",
+    "song-menu": "../../components/songMenu/songMenu",
+    "player-bar": "../../components/playerBar/playerBar"
+  }
+}

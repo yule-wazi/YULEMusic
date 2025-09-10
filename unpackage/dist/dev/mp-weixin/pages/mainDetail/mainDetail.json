@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "menu-header": "../../components/menuHeader/menuHeader",
+    "song-item": "../../components/songItem/songItem",
+    "player-bar": "../../components/playerBar/playerBar"
+  }
+}

@@ -1,0 +1,1 @@
+<view class="hotSearch"><area-header wx:if="{{a}}" u-i="b38a34cc-0" bind:__l="__l" u-p="{{a}}"/><view class="hotList"><view wx:for="{{b}}" wx:for-item="item" wx:key="e"><view class="item" bindtap="{{item.d}}"><view class="{{['index', item.b && 'active']}}">{{item.a}}</view><view class="name">{{item.c}}</view></view></view></view></view>

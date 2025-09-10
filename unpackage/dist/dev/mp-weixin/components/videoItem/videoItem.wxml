@@ -1,0 +1,1 @@
+<view class="videoItem" bindtap="{{f}}"><view class="Img"><image class="img" src="{{a}}" mode="widthFix"/><view class="info"><view class="viewCount">{{b}}</view><view class="duration">{{c}}</view></view></view><view class="desc">{{d}} - {{e}}</view></view>

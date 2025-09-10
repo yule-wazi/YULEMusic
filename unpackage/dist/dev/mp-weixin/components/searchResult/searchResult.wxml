@@ -1,0 +1,1 @@
+<view class="searchResult"><area-header wx:if="{{a}}" u-i="5c291aae-0" bind:__l="__l" u-p="{{a}}"/><song-item wx:if="{{b}}" u-i="5c291aae-1" bind:__l="__l" u-p="{{b}}"/></view>

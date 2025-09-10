@@ -1,0 +1,1 @@
+<view wx:if="{{a}}" class="playerBar" bindtap="{{i}}"><view ref="album" class="{{['album', c && 'playing']}}"><image class="albumImg" src="{{b}}" mode="heightFix"/></view><view class="songInfo">{{d}}</view><view class="controls"><image class="pause" src="{{e}}" catchtap="{{f}}" bindtap="{{g}}"/><image class="list" src="{{h}}"/></view></view>

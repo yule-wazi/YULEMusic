@@ -1,0 +1,1 @@
+<view class="areaHeader"><view class="title">{{a}}</view><view wx:if="{{b}}" class="more" bindtap="{{d}}"><view class="text">更多</view><uni-icons wx:if="{{c}}" u-i="2bc1f98e-0" bind:__l="__l" u-p="{{c}}"></uni-icons></view></view>

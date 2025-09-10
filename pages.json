@@ -1,0 +1,89 @@
+{
+	"pages": [ 
+		{
+			"path" : "pages/mainMusic/mainMusic",
+			"style" : 
+			{
+				"navigationBarTitleText" : "音乐"
+			}
+		},
+		{
+			"path" : "pages/mainSearch/mainSearch",
+			"style" : 
+			{
+				"navigationBarTitleText" : "搜索"
+			}
+		},
+		{
+			"path" : "pages/mainDetail/mainDetail",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/menuMore/menuMore",
+			"style" : 
+			{
+				"navigationBarTitleText" : "分类"
+			}
+		},
+		{
+			"path" : "pages/musicPlayer/musicPlayer",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"navigationBarHidden": true,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/mainVideo/mainVideo",
+			"style" : 
+			{
+				"navigationBarTitleText" : "视频",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path" : "pages/videoDetail/videoDetail",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		}
+	],
+	// "tabBar": {
+	// 	"height": "100rpx",
+	// 	"color": "#7A7E83",
+	// 	"selectedColor": "#3cc51f",
+	// 	"borderStyle": "white",
+	// 	"backgroundColor": "#ffffff",
+	// 	"list": [
+	// 		{
+	// 			"pagePath": "pages/mainMusic/mainMusic",
+	// 			"text": "音乐",
+	// 			"iconPath": "/static/music_normal.png",
+	// 			"selectedIconPath": "/static/music_active.png"
+	// 		},
+	// 		{
+	// 			"pagePath": "pages/mainVideo/mainVideo",
+	// 			"text": "视频",
+	// 			"iconPath": "/static/video_normal.png",
+	// 			"selectedIconPath": "/static/video_active.png"
+	// 		}
+	// 	]
+	// },
+	"easycom": {
+	  "autoscan": true,
+	  "custom": {
+	    "^uni-(.*)": "@/uni_modules/uni-$1/components/uni-$1/uni-$1.vue"
+	  }
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}
