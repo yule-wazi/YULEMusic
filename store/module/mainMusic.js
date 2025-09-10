@@ -8,6 +8,8 @@ const useMusic = defineStore('music', {
 			recommendSongs: [],
 			hotMenu: [],
 			menuInfo: {},
+			singerId: 0,
+			singerDetail: {},
 			recommendMenu: [],
 			rankingMenuList: [],
 			rankingSongs: [],
@@ -73,7 +75,7 @@ const useMusic = defineStore('music', {
 					reject(err)
 				}
 			})
-		}
+		},
 	}
 })
 export default useMusic

@@ -688,7 +688,7 @@ if (uni.restoreGlobal) {
     const reg = /^[0-9]*$/g;
     return typeof val === "number" || reg.test(val) ? val + "px" : val;
   };
-  const _sfc_main$o = {
+  const _sfc_main$p = {
     name: "UniIcons",
     emits: ["click"],
     props: {
@@ -742,7 +742,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       "text",
       {
@@ -757,7 +757,7 @@ if (uni.restoreGlobal) {
       /* CLASS, STYLE */
     );
   }
-  const __easycom_0$5 = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$n], ["__scopeId", "data-v-d31e1c47"], ["__file", "D:/uniApp学习/YULEMusic/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
+  const __easycom_0$5 = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$o], ["__scopeId", "data-v-d31e1c47"], ["__file", "D:/uniApp学习/YULEMusic/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
   const ON_LOAD = "onLoad";
   const ON_UNLOAD = "onUnload";
   const ON_REACH_BOTTOM = "onReachBottom";
@@ -1101,7 +1101,7 @@ if (uni.restoreGlobal) {
   const {
     t
   } = initVueI18n(messages);
-  const _sfc_main$n = {
+  const _sfc_main$o = {
     name: "UniSearchBar",
     emits: ["input", "update:modelValue", "clear", "cancel", "confirm", "blur", "focus"],
     props: {
@@ -1243,7 +1243,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$5);
     return vue.openBlock(), vue.createElementBlock("view", { class: "uni-searchbar" }, [
       vue.createElementVNode(
@@ -1319,8 +1319,8 @@ if (uni.restoreGlobal) {
       )) : vue.createCommentVNode("v-if", true)
     ]);
   }
-  const __easycom_0$4 = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$m], ["__scopeId", "data-v-f07ef577"], ["__file", "D:/uniApp学习/YULEMusic/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.vue"]]);
-  const _sfc_main$m = {
+  const __easycom_0$4 = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$n], ["__scopeId", "data-v-f07ef577"], ["__file", "D:/uniApp学习/YULEMusic/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.vue"]]);
+  const _sfc_main$n = {
     __name: "areaHeader",
     props: {
       title: {
@@ -1345,7 +1345,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$5);
     return vue.openBlock(), vue.createElementBlock("view", { class: "areaHeader" }, [
       vue.createElementVNode(
@@ -1368,7 +1368,7 @@ if (uni.restoreGlobal) {
       ])) : vue.createCommentVNode("v-if", true)
     ]);
   }
-  const __easycom_0$3 = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$l], ["__scopeId", "data-v-d8c105c5"], ["__file", "D:/uniApp学习/YULEMusic/components/areaHeader/areaHeader.vue"]]);
+  const __easycom_0$3 = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$m], ["__scopeId", "data-v-d8c105c5"], ["__file", "D:/uniApp学习/YULEMusic/components/areaHeader/areaHeader.vue"]]);
   var isVue2 = false;
   function set(target, key, val) {
     if (Array.isArray(target)) {
@@ -3006,6 +3006,111 @@ This will fail in production if not fixed.`);
     }
   }
   const myRequest = new Request("https://163api.qijieya.cn");
+  function fetchBannerList(type = 2) {
+    return myRequest.get({
+      url: "/banner",
+      data: {
+        type
+      }
+    });
+  }
+  function fetchSongRecommend(id = 3778678) {
+    return myRequest.get({
+      url: "/playlist/detail",
+      data: {
+        id
+      }
+    });
+  }
+  function fetchSongMenu(cat = "全部", limit = 6, offset = 0) {
+    return myRequest.get({
+      url: "/top/playlist",
+      data: {
+        cat,
+        limit,
+        offset
+      }
+    });
+  }
+  function fetchAllMenu() {
+    return myRequest.get({
+      url: "/playlist/hot"
+    });
+  }
+  const useMusic = defineStore("music", {
+    state: () => {
+      return {
+        bannerList: [],
+        recommendSongs: [],
+        hotMenu: [],
+        menuInfo: {},
+        singerId: 0,
+        singerDetail: {},
+        recommendMenu: [],
+        rankingMenuList: [],
+        rankingSongs: [],
+        currentPage: "mainMusic"
+      };
+    },
+    actions: {
+      async getBannerList() {
+        const res = await fetchBannerList();
+        const list = res.data.banners;
+        this.bannerList = list.map((item) => item.pic);
+      },
+      getRecommendSongs() {
+        return new Promise(async (resolve, reject2) => {
+          try {
+            const res = await fetchSongRecommend();
+            this.recommendSongs = res.data.playlist.tracks;
+            resolve();
+          } catch (err) {
+            reject2(err);
+          }
+        });
+      },
+      async getSongMenu() {
+        let menu = await fetchSongMenu();
+        this.hotMenu = menu.data.playlists;
+        menu = await fetchSongMenu("华语");
+        this.recommendMenu = menu.data.playlists;
+      },
+      getMenuInfo(id) {
+        return new Promise(async (resolve, reject2) => {
+          try {
+            let res = await fetchSongRecommend(id);
+            this.menuInfo = res.data.playlist;
+            resolve();
+          } catch (err) {
+            reject2(err);
+          }
+        });
+      },
+      async getRankingList() {
+        const rankingMap = {
+          originRanking: 2884035,
+          newRanking: 3779629,
+          uperRanking: 19723756
+        };
+        for (const key in rankingMap) {
+          const id = rankingMap[key];
+          const res = await fetchSongRecommend(id);
+          this.rankingMenuList.push(res.data.playlist);
+        }
+      },
+      getRankingSongs(id) {
+        return new Promise(async (resolve, resject) => {
+          try {
+            const res = await fetchSongRecommend(id);
+            this.rankingSongs = res.data.playlist.tracks;
+            resolve();
+          } catch (err) {
+            reject(err);
+          }
+        });
+      }
+    }
+  });
   function fetchSongDetail(ids) {
     return myRequest.get({
       url: "/song/detail",
@@ -3065,12 +3170,34 @@ This will fail in production if not fixed.`);
     }
     return lyricsList;
   }
+  function fetchSearchHotList() {
+    return myRequest.get({
+      url: "/search/hot"
+    });
+  }
+  function fetchSearchSuggest(keyword) {
+    return myRequest.get({
+      url: `/search/suggest?keywords=${keyword}`
+    });
+  }
+  function fetchSearchKeyword(keyword, offset) {
+    return myRequest.get({
+      url: `/cloudsearch?keywords=${keyword}&offset=${offset}`
+    });
+  }
+  function fetchSearchSinger(id) {
+    return myRequest.get({
+      url: `/artist/detail?id=${id}`
+    });
+  }
   const usePlayer = defineStore("player", {
     state: () => {
       return {
         isFirstPlay: true,
         songDetail: {},
         songList: [],
+        singerId: 0,
+        singerDetail: {},
         songIndex: 0,
         lyrics: "",
         lyricsList: {},
@@ -3093,6 +3220,8 @@ This will fail in production if not fixed.`);
             let res = await fetchSongDetail(id);
             this.songDetail = res.data.songs[0];
             this.durationTime = res.data.songs[0].dt;
+            formatAppLog("log", "at store/module/player.js:36", res.data);
+            this.singerId = res.data.songs[0].ar[0].id;
             res = await fetchSongLyric(id);
             this.lyrics = res.data.lrc.lyric;
             this.lyricsList = formatLyrics(this.lyrics);
@@ -3101,10 +3230,18 @@ This will fail in production if not fixed.`);
             reject2(err);
           }
         });
+      },
+      getSearchSinger(id) {
+        return new Promise(async (resolve) => {
+          const res = await fetchSearchSinger(this.singerId);
+          this.singerDetail = res.data.data;
+          formatAppLog("log", "at store/module/player.js:52", "this.singerDetail=", this.singerDetail);
+          resolve();
+        });
       }
     }
   });
-  const _sfc_main$l = {
+  const _sfc_main$m = {
     __name: "songRecommend",
     props: {
       songs: {
@@ -3117,21 +3254,23 @@ This will fail in production if not fixed.`);
       const props = __props;
       const playerStore = usePlayer();
       const songClick = (item, index) => {
-        formatAppLog("log", "at components/songRecommend/songRecommend.vue:32", "进入歌曲");
+        formatAppLog("log", "at components/songRecommend/songRecommend.vue:33", "进入歌曲");
         playerStore.songList = props.songs;
         playerStore.songIndex = index;
         uni.navigateTo({
           url: `/pages/musicPlayer/musicPlayer?id=${item.id}`
         });
       };
-      const __returned__ = { props, playerStore, songClick, get usePlayer() {
+      const __returned__ = { props, playerStore, songClick, get useMusic() {
+        return useMusic;
+      }, get usePlayer() {
         return usePlayer;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
   };
-  function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$5);
     return vue.openBlock(), vue.createElementBlock("view", { class: "songRecommend" }, [
       (vue.openBlock(true), vue.createElementBlock(
@@ -3180,8 +3319,8 @@ This will fail in production if not fixed.`);
       ))
     ]);
   }
-  const __easycom_2$2 = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$k], ["__scopeId", "data-v-eb4aac09"], ["__file", "D:/uniApp学习/YULEMusic/components/songRecommend/songRecommend.vue"]]);
-  const _sfc_main$k = {
+  const __easycom_2$3 = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$l], ["__scopeId", "data-v-eb4aac09"], ["__file", "D:/uniApp学习/YULEMusic/components/songRecommend/songRecommend.vue"]]);
+  const _sfc_main$l = {
     __name: "songMenu",
     props: {
       menu: {
@@ -3204,7 +3343,7 @@ This will fail in production if not fixed.`);
       return __returned__;
     }
   };
-  function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       class: "songMenu",
       onClick: $setup.menuClick
@@ -3232,8 +3371,8 @@ This will fail in production if not fixed.`);
       )
     ]);
   }
-  const __easycom_1$3 = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$j], ["__scopeId", "data-v-396214c0"], ["__file", "D:/uniApp学习/YULEMusic/components/songMenu/songMenu.vue"]]);
-  const _sfc_main$j = {
+  const __easycom_1$3 = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$k], ["__scopeId", "data-v-396214c0"], ["__file", "D:/uniApp学习/YULEMusic/components/songMenu/songMenu.vue"]]);
+  const _sfc_main$k = {
     __name: "areaMenu",
     props: {
       title: {
@@ -3258,7 +3397,7 @@ This will fail in production if not fixed.`);
       return __returned__;
     }
   };
-  function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_areaHeader = resolveEasycom(vue.resolveDynamicComponent("areaHeader"), __easycom_0$3);
     const _component_songMenu = resolveEasycom(vue.resolveDynamicComponent("songMenu"), __easycom_1$3);
     return vue.openBlock(), vue.createElementBlock("view", { class: "hotSongMenu" }, [
@@ -3290,8 +3429,8 @@ This will fail in production if not fixed.`);
       ])
     ]);
   }
-  const __easycom_3$1 = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$i], ["__scopeId", "data-v-a19ba597"], ["__file", "D:/uniApp学习/YULEMusic/components/areaMenu/areaMenu.vue"]]);
-  const _sfc_main$i = {
+  const __easycom_3$1 = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$j], ["__scopeId", "data-v-a19ba597"], ["__file", "D:/uniApp学习/YULEMusic/components/areaMenu/areaMenu.vue"]]);
+  const _sfc_main$j = {
     __name: "rankingItem",
     props: {
       rankingItem: {
@@ -3318,7 +3457,7 @@ This will fail in production if not fixed.`);
       return __returned__;
     }
   };
-  function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       class: "rankingItem",
       onClick: $setup.rankingClick
@@ -3385,7 +3524,7 @@ This will fail in production if not fixed.`);
       ])
     ]);
   }
-  const __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$h], ["__scopeId", "data-v-6e9a9b4d"], ["__file", "D:/uniApp学习/YULEMusic/components/rankingItem/rankingItem.vue"]]);
+  const __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$i], ["__scopeId", "data-v-6e9a9b4d"], ["__file", "D:/uniApp学习/YULEMusic/components/rankingItem/rankingItem.vue"]]);
   let audioContext = null;
   function audioInstance() {
     if (!audioContext) {
@@ -3394,7 +3533,7 @@ This will fail in production if not fixed.`);
     return audioContext;
   }
   const _imports_0$2 = "/static/play_musicList.png";
-  const _sfc_main$h = {
+  const _sfc_main$i = {
     __name: "playerBar",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -3424,7 +3563,7 @@ This will fail in production if not fixed.`);
       return __returned__;
     }
   };
-  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
     return $setup.playerStore.songDetail.al ? (vue.openBlock(), vue.createElementBlock("view", {
       key: 0,
       class: "playerBar",
@@ -3470,111 +3609,8 @@ This will fail in production if not fixed.`);
       ])
     ])) : vue.createCommentVNode("v-if", true);
   }
-  const __easycom_2$1 = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$g], ["__scopeId", "data-v-c5ad1ae6"], ["__file", "D:/uniApp学习/YULEMusic/components/playerBar/playerBar.vue"]]);
-  function fetchBannerList(type = 2) {
-    return myRequest.get({
-      url: "/banner",
-      data: {
-        type
-      }
-    });
-  }
-  function fetchSongRecommend(id = 3778678) {
-    return myRequest.get({
-      url: "/playlist/detail",
-      data: {
-        id
-      }
-    });
-  }
-  function fetchSongMenu(cat = "全部", limit = 6, offset = 0) {
-    return myRequest.get({
-      url: "/top/playlist",
-      data: {
-        cat,
-        limit,
-        offset
-      }
-    });
-  }
-  function fetchAllMenu() {
-    return myRequest.get({
-      url: "/playlist/hot"
-    });
-  }
-  const useMusic = defineStore("music", {
-    state: () => {
-      return {
-        bannerList: [],
-        recommendSongs: [],
-        hotMenu: [],
-        menuInfo: {},
-        recommendMenu: [],
-        rankingMenuList: [],
-        rankingSongs: [],
-        currentPage: "mainMusic"
-      };
-    },
-    actions: {
-      async getBannerList() {
-        const res = await fetchBannerList();
-        const list = res.data.banners;
-        this.bannerList = list.map((item) => item.pic);
-      },
-      getRecommendSongs() {
-        return new Promise(async (resolve, reject2) => {
-          try {
-            const res = await fetchSongRecommend();
-            this.recommendSongs = res.data.playlist.tracks;
-            resolve();
-          } catch (err) {
-            reject2(err);
-          }
-        });
-      },
-      async getSongMenu() {
-        let menu = await fetchSongMenu();
-        this.hotMenu = menu.data.playlists;
-        menu = await fetchSongMenu("华语");
-        this.recommendMenu = menu.data.playlists;
-      },
-      getMenuInfo(id) {
-        return new Promise(async (resolve, reject2) => {
-          try {
-            let res = await fetchSongRecommend(id);
-            this.menuInfo = res.data.playlist;
-            resolve();
-          } catch (err) {
-            reject2(err);
-          }
-        });
-      },
-      async getRankingList() {
-        const rankingMap = {
-          originRanking: 2884035,
-          newRanking: 3779629,
-          uperRanking: 19723756
-        };
-        for (const key in rankingMap) {
-          const id = rankingMap[key];
-          const res = await fetchSongRecommend(id);
-          this.rankingMenuList.push(res.data.playlist);
-        }
-      },
-      getRankingSongs(id) {
-        return new Promise(async (resolve, resject) => {
-          try {
-            const res = await fetchSongRecommend(id);
-            this.rankingSongs = res.data.playlist.tracks;
-            resolve();
-          } catch (err) {
-            reject(err);
-          }
-        });
-      }
-    }
-  });
-  const _sfc_main$g = {
+  const __easycom_2$2 = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$h], ["__scopeId", "data-v-c5ad1ae6"], ["__file", "D:/uniApp学习/YULEMusic/components/playerBar/playerBar.vue"]]);
+  const _sfc_main$h = {
     __name: "tabBar",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -3599,7 +3635,7 @@ This will fail in production if not fixed.`);
       return __returned__;
     }
   };
-  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "tabBar" }, [
       vue.createElementVNode("view", {
         class: "music",
@@ -3639,8 +3675,8 @@ This will fail in production if not fixed.`);
       ])
     ]);
   }
-  const __easycom_1$2 = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$f], ["__scopeId", "data-v-c497a889"], ["__file", "D:/uniApp学习/YULEMusic/components/tabBar/tabBar.vue"]]);
-  const _sfc_main$f = {
+  const __easycom_1$2 = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$g], ["__scopeId", "data-v-c497a889"], ["__file", "D:/uniApp学习/YULEMusic/components/tabBar/tabBar.vue"]]);
+  const _sfc_main$g = {
     __name: "mainMusic",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -3669,13 +3705,13 @@ This will fail in production if not fixed.`);
       return __returned__;
     }
   };
-  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_search_bar = resolveEasycom(vue.resolveDynamicComponent("uni-search-bar"), __easycom_0$4);
     const _component_areaHeader = resolveEasycom(vue.resolveDynamicComponent("areaHeader"), __easycom_0$3);
-    const _component_songRecommend = resolveEasycom(vue.resolveDynamicComponent("songRecommend"), __easycom_2$2);
+    const _component_songRecommend = resolveEasycom(vue.resolveDynamicComponent("songRecommend"), __easycom_2$3);
     const _component_areaMenu = resolveEasycom(vue.resolveDynamicComponent("areaMenu"), __easycom_3$1);
     const _component_rankingItem = resolveEasycom(vue.resolveDynamicComponent("rankingItem"), __easycom_4);
-    const _component_playerBar = resolveEasycom(vue.resolveDynamicComponent("playerBar"), __easycom_2$1);
+    const _component_playerBar = resolveEasycom(vue.resolveDynamicComponent("playerBar"), __easycom_2$2);
     const _component_tabBar = resolveEasycom(vue.resolveDynamicComponent("tabBar"), __easycom_1$2);
     return vue.openBlock(), vue.createElementBlock("view", { class: "mainMusic" }, [
       vue.createCommentVNode(" 搜索 "),
@@ -3763,8 +3799,8 @@ This will fail in production if not fixed.`);
       vue.createVNode(_component_tabBar)
     ]);
   }
-  const PagesMainMusicMainMusic = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__file", "D:/uniApp学习/YULEMusic/pages/mainMusic/mainMusic.vue"]]);
-  const _sfc_main$e = {
+  const PagesMainMusicMainMusic = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$f], ["__file", "D:/uniApp学习/YULEMusic/pages/mainMusic/mainMusic.vue"]]);
+  const _sfc_main$f = {
     __name: "searchHot",
     props: {
       searchHotList: {
@@ -3786,7 +3822,7 @@ This will fail in production if not fixed.`);
       return __returned__;
     }
   };
-  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_areaHeader = resolveEasycom(vue.resolveDynamicComponent("areaHeader"), __easycom_0$3);
     return vue.openBlock(), vue.createElementBlock("view", { class: "hotSearch" }, [
       vue.createVNode(_component_areaHeader, {
@@ -3828,9 +3864,9 @@ This will fail in production if not fixed.`);
       ])
     ]);
   }
-  const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-72deb137"], ["__file", "D:/uniApp学习/YULEMusic/components/searchHot/searchHot.vue"]]);
+  const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__scopeId", "data-v-72deb137"], ["__file", "D:/uniApp学习/YULEMusic/components/searchHot/searchHot.vue"]]);
   const _imports_0$1 = "/static/sq_icon.png";
-  const _sfc_main$d = {
+  const _sfc_main$e = {
     __name: "songItem",
     props: {
       songsList: {
@@ -3843,21 +3879,23 @@ This will fail in production if not fixed.`);
       const props = __props;
       const playerStore = usePlayer();
       const songClick = (item, index) => {
-        formatAppLog("log", "at components/songItem/songItem.vue:33", "歌曲点击");
+        formatAppLog("log", "at components/songItem/songItem.vue:34", "歌曲点击");
         playerStore.songList = props.songsList;
         playerStore.songIndex = index;
         uni.navigateTo({
           url: `/pages/musicPlayer/musicPlayer?id=${item.id}`
         });
       };
-      const __returned__ = { props, playerStore, songClick, get usePlayer() {
+      const __returned__ = { props, playerStore, songClick, get useMusic() {
+        return useMusic;
+      }, get usePlayer() {
         return usePlayer;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
   };
-  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "songItems" }, [
       (vue.openBlock(true), vue.createElementBlock(
         vue.Fragment,
@@ -3906,8 +3944,8 @@ This will fail in production if not fixed.`);
       ))
     ]);
   }
-  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-4e46afe4"], ["__file", "D:/uniApp学习/YULEMusic/components/songItem/songItem.vue"]]);
-  const _sfc_main$c = {
+  const __easycom_2$1 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-4e46afe4"], ["__file", "D:/uniApp学习/YULEMusic/components/songItem/songItem.vue"]]);
+  const _sfc_main$d = {
     __name: "searchResult",
     props: {
       songs: {
@@ -3923,9 +3961,9 @@ This will fail in production if not fixed.`);
       return __returned__;
     }
   };
-  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_areaHeader = resolveEasycom(vue.resolveDynamicComponent("areaHeader"), __easycom_0$3);
-    const _component_songItem = resolveEasycom(vue.resolveDynamicComponent("songItem"), __easycom_1);
+    const _component_songItem = resolveEasycom(vue.resolveDynamicComponent("songItem"), __easycom_2$1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "searchResult" }, [
       vue.createVNode(_component_areaHeader, {
         title: "单曲",
@@ -3934,8 +3972,8 @@ This will fail in production if not fixed.`);
       vue.createVNode(_component_songItem, { songsList: $props.songs }, null, 8, ["songsList"])
     ]);
   }
-  const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__file", "D:/uniApp学习/YULEMusic/components/searchResult/searchResult.vue"]]);
-  const _sfc_main$b = {
+  const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__file", "D:/uniApp学习/YULEMusic/components/searchResult/searchResult.vue"]]);
+  const _sfc_main$c = {
     __name: "searchSuggest",
     props: {
       searchSuggest: {
@@ -3956,7 +3994,7 @@ This will fail in production if not fixed.`);
       return __returned__;
     }
   };
-  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$5);
     return vue.openBlock(), vue.createElementBlock("view", { class: "searchSuggest" }, [
       (vue.openBlock(true), vue.createElementBlock(
@@ -3989,23 +4027,8 @@ This will fail in production if not fixed.`);
       ))
     ]);
   }
-  const __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__scopeId", "data-v-33d0a2ea"], ["__file", "D:/uniApp学习/YULEMusic/components/searchSuggest/searchSuggest.vue"]]);
-  function fetchSearchHotList() {
-    return myRequest.get({
-      url: "/search/hot"
-    });
-  }
-  function fetchSearchSuggest(keyword) {
-    return myRequest.get({
-      url: `/search/suggest?keywords=${keyword}`
-    });
-  }
-  function fetchSearchKeyword(keyword, offset) {
-    return myRequest.get({
-      url: `/cloudsearch?keywords=${keyword}&offset=${offset}`
-    });
-  }
-  const _sfc_main$a = {
+  const __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-33d0a2ea"], ["__file", "D:/uniApp学习/YULEMusic/components/searchSuggest/searchSuggest.vue"]]);
+  const _sfc_main$b = {
     __name: "mainSearch",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -4080,12 +4103,12 @@ This will fail in production if not fixed.`);
       return __returned__;
     }
   };
-  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_search_bar = resolveEasycom(vue.resolveDynamicComponent("uni-search-bar"), __easycom_0$4);
     const _component_searchHot = resolveEasycom(vue.resolveDynamicComponent("searchHot"), __easycom_1$1);
     const _component_searchResult = resolveEasycom(vue.resolveDynamicComponent("searchResult"), __easycom_2);
     const _component_searchSuggest = resolveEasycom(vue.resolveDynamicComponent("searchSuggest"), __easycom_3);
-    const _component_playerBar = resolveEasycom(vue.resolveDynamicComponent("playerBar"), __easycom_2$1);
+    const _component_playerBar = resolveEasycom(vue.resolveDynamicComponent("playerBar"), __easycom_2$2);
     return vue.openBlock(), vue.createElementBlock("view", { class: "mainSearch" }, [
       vue.createVNode(_component_uni_search_bar, {
         placeholder: "请输入搜索关键词",
@@ -4120,8 +4143,8 @@ This will fail in production if not fixed.`);
       vue.createVNode(_component_playerBar)
     ]);
   }
-  const PagesMainSearchMainSearch = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__file", "D:/uniApp学习/YULEMusic/pages/mainSearch/mainSearch.vue"]]);
-  const _sfc_main$9 = {
+  const PagesMainSearchMainSearch = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__file", "D:/uniApp学习/YULEMusic/pages/mainSearch/mainSearch.vue"]]);
+  const _sfc_main$a = {
     __name: "menuHeader",
     props: {
       menuInfo: {
@@ -4137,7 +4160,7 @@ This will fail in production if not fixed.`);
       return __returned__;
     }
   };
-  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$5);
     return vue.openBlock(), vue.createElementBlock("view", { class: "menuHeader" }, [
       vue.createElementVNode("view", { class: "bgImg" }, [
@@ -4220,7 +4243,77 @@ This will fail in production if not fixed.`);
       ])
     ]);
   }
-  const __easycom_0$2 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-096e4272"], ["__file", "D:/uniApp学习/YULEMusic/components/menuHeader/menuHeader.vue"]]);
+  const __easycom_0$2 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-096e4272"], ["__file", "D:/uniApp学习/YULEMusic/components/menuHeader/menuHeader.vue"]]);
+  const _sfc_main$9 = {
+    __name: "singerInfo",
+    props: {
+      singerInfo: {
+        type: Object,
+        default: {}
+      }
+    },
+    setup(__props, { expose: __expose }) {
+      __expose();
+      const props = __props;
+      formatAppLog("log", "at components/singerInfo/singerInfo.vue:31", "props=", props);
+      const __returned__ = { props };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
+    }
+  };
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "menuHeader" }, [
+      vue.createElementVNode("view", { class: "bgImg" }, [
+        vue.createElementVNode("image", {
+          class: "image",
+          src: $props.singerInfo.user.backgroundUrl,
+          mode: "aspectFill"
+        }, null, 8, ["src"])
+      ]),
+      vue.createElementVNode("view", { class: "content" }, [
+        vue.createElementVNode("view", { class: "info" }, [
+          vue.createElementVNode("view", { class: "left" }, [
+            vue.createElementVNode("image", {
+              class: "image",
+              src: $props.singerInfo.user.avatarUrl,
+              mode: ""
+            }, null, 8, ["src"])
+          ]),
+          vue.createElementVNode("view", { class: "right" }, [
+            vue.createElementVNode(
+              "view",
+              { class: "title" },
+              vue.toDisplayString($props.singerInfo.user.nickname),
+              1
+              /* TEXT */
+            ),
+            vue.createElementVNode("view", { class: "creator" }, [
+              vue.createElementVNode("image", {
+                class: "creatorImage",
+                src: $props.singerInfo.artist.cover,
+                mode: ""
+              }, null, 8, ["src"]),
+              vue.createElementVNode(
+                "view",
+                { class: "creatorName" },
+                vue.toDisplayString($props.singerInfo.artist.name),
+                1
+                /* TEXT */
+              )
+            ]),
+            vue.createElementVNode(
+              "view",
+              { class: "desc" },
+              "简介：" + vue.toDisplayString($props.singerInfo.artist.briefDesc),
+              1
+              /* TEXT */
+            )
+          ])
+        ])
+      ])
+    ]);
+  }
+  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-fc4b0f87"], ["__file", "D:/uniApp学习/YULEMusic/components/singerInfo/singerInfo.vue"]]);
   const _sfc_main$8 = {
     __name: "mainDetail",
     setup(__props, { expose: __expose }) {
@@ -4233,6 +4326,7 @@ This will fail in production if not fixed.`);
         id: 0
       });
       const musicStore = useMusic();
+      const playerStore = usePlayer();
       onLoad(async (options) => {
         if (options.type) {
           data.type = options.type;
@@ -4252,10 +4346,12 @@ This will fail in production if not fixed.`);
           data.songs = musicStore.rankingSongs;
         }
       });
-      const __returned__ = { data, musicStore, reactive: vue.reactive, computed: vue.computed, get useMusic() {
+      const __returned__ = { data, musicStore, playerStore, reactive: vue.reactive, computed: vue.computed, get useMusic() {
         return useMusic;
       }, get onLoad() {
         return onLoad;
+      }, get usePlayer() {
+        return usePlayer;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
@@ -4263,13 +4359,17 @@ This will fail in production if not fixed.`);
   };
   function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_menuHeader = resolveEasycom(vue.resolveDynamicComponent("menuHeader"), __easycom_0$2);
-    const _component_songItem = resolveEasycom(vue.resolveDynamicComponent("songItem"), __easycom_1);
-    const _component_playerBar = resolveEasycom(vue.resolveDynamicComponent("playerBar"), __easycom_2$1);
+    const _component_singerInfo = resolveEasycom(vue.resolveDynamicComponent("singerInfo"), __easycom_1);
+    const _component_songItem = resolveEasycom(vue.resolveDynamicComponent("songItem"), __easycom_2$1);
+    const _component_playerBar = resolveEasycom(vue.resolveDynamicComponent("playerBar"), __easycom_2$2);
     return vue.openBlock(), vue.createElementBlock("view", { class: "mainDetail" }, [
       $setup.data.type === "menu" && $setup.data.songsInfo.coverImgUrl ? (vue.openBlock(), vue.createBlock(_component_menuHeader, {
         key: 0,
         menuInfo: $setup.data.songsInfo
-      }, null, 8, ["menuInfo"])) : vue.createCommentVNode("v-if", true),
+      }, null, 8, ["menuInfo"])) : $setup.data.type === "singer" ? (vue.openBlock(), vue.createBlock(_component_singerInfo, {
+        key: 1,
+        singerInfo: $setup.playerStore.singerDetail
+      }, null, 8, ["singerInfo"])) : vue.createCommentVNode("v-if", true),
       vue.createVNode(_component_songItem, {
         songsList: $setup.data.songs
       }, null, 8, ["songsList"]),
@@ -4309,7 +4409,7 @@ This will fail in production if not fixed.`);
   function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_areaHeader = resolveEasycom(vue.resolveDynamicComponent("areaHeader"), __easycom_0$3);
     const _component_songMenu = resolveEasycom(vue.resolveDynamicComponent("songMenu"), __easycom_1$3);
-    const _component_playerBar = resolveEasycom(vue.resolveDynamicComponent("playerBar"), __easycom_2$1);
+    const _component_playerBar = resolveEasycom(vue.resolveDynamicComponent("playerBar"), __easycom_2$2);
     return vue.openBlock(), vue.createElementBlock("view", { class: "menuMore" }, [
       (vue.openBlock(true), vue.createElementBlock(
         vue.Fragment,
@@ -4716,7 +4816,6 @@ This will fail in production if not fixed.`);
           playerStore.isFirstPlay = false;
           audioContext2.onEnded(nextClick);
         }
-        formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:105", "playMusicOnLoad", options);
         const id = options.id;
         const systemInfo = uni.getSystemInfoSync();
         const contentHeight = systemInfo.windowHeight;
@@ -4771,7 +4870,7 @@ This will fail in production if not fixed.`);
       const getSong = async (id) => {
         const proxyRes = await fetchSongProxyUrl(id);
         try {
-          formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:168", proxyRes);
+          formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:167", proxyRes);
           if (proxyRes.data.code !== 200) {
             throw new Error(`HTTP error! status`);
             return;
@@ -4779,8 +4878,8 @@ This will fail in production if not fixed.`);
           const proxyUrl = proxyRes.data.data.url;
           audioContext2.src = proxyUrl;
         } catch (error) {
-          formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:176", "报错", error);
-          formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:177", "启动非代理url");
+          formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:175", "报错", error);
+          formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:176", "启动非代理url");
           audioContext2.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
         }
         await playerStore.getSongs(id);
@@ -4828,20 +4927,27 @@ This will fail in production if not fixed.`);
       const pageChange = (event) => {
         data.currentPage = event.detail.current;
       };
+      const searchSinger = async () => {
+        formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:233", "搜索歌手", playerStore.singerId);
+        await playerStore.getSearchSinger();
+        uni.navigateTo({
+          url: `/pages/mainDetail/mainDetail?type=singer&id=${playerStore.singerId}`
+        });
+      };
       onUnload(() => {
         clearInterval(timer);
       });
       uni.setKeepScreenOn({
         keepScreenOn: true,
         success: () => {
-          formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:240", "保持常亮");
+          formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:247", "保持常亮");
         }
       });
       const __returned__ = { audioContext: audioContext2, data, playerStore, get timer() {
         return timer;
       }, set timer(v) {
         timer = v;
-      }, playClick, nextClick, prevClick, indexChange, orderChange, getSong, audioUpdate, backClick, sliderChange, sliderChanging, pageChange, reactive: vue.reactive, get onLoad() {
+      }, playClick, nextClick, prevClick, indexChange, orderChange, getSong, audioUpdate, backClick, sliderChange, sliderChanging, pageChange, searchSinger, reactive: vue.reactive, get onLoad() {
         return onLoad;
       }, get onUnload() {
         return onUnload;
@@ -4855,6 +4961,8 @@ This will fail in production if not fixed.`);
         return throttle;
       }, get audioInstance() {
         return audioInstance;
+      }, get useMusic() {
+        return useMusic;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
@@ -4930,7 +5038,10 @@ This will fail in production if not fixed.`);
               ),
               vue.createElementVNode(
                 "view",
-                { class: "artist" },
+                {
+                  class: "artist",
+                  onClick: $setup.searchSinger
+                },
                 vue.toDisplayString($setup.playerStore.songDetail.ar[0].name),
                 1
                 /* TEXT */

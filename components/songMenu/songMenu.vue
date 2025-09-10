@@ -16,7 +16,7 @@ const props = defineProps({
 		default: {}
 	}
 })
-// è¿›å…¥èœå•
+// ½øÈë²Ëµ¥
 const menuClick = () => {
 	uni.navigateTo({
 		url: `/pages/mainDetail/mainDetail?type=menu&id=${props.menu.id}`

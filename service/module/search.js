@@ -17,3 +17,9 @@ export function fetchSearchKeyword(keyword, offset) {
     url: `/cloudsearch?keywords=${keyword}&offset=${offset}`
   })
 }
+
+export function fetchSearchSinger(id) {
+	return myRequest.get({
+		url: `/artist/detail?id=${id}`
+	})
+}

@@ -19,6 +19,7 @@
 </template>
 
 <script setup>
+import useMusic from '../../store/module/mainMusic';
 import usePlayer from '../../store/module/player';
 
 const props = defineProps({

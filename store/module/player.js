@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia' 
 import { fetchSongDetail, fetchSongLyric } from '@/service/module/plyaer'
 import { formatLyrics } from '@/utils/formatView'
+import { fetchSearchSinger } from '../../service/module/search'
 const usePlayer = defineStore('player', {
 	state: () => {
 		return {
 			isFirstPlay: true,
 			songDetail: {},
 			songList: [],
+			singerId: 0,
+			singerDetail: {},
 			songIndex: 0,
 			lyrics: "",
 			lyricsList: {},
@@ -30,6 +33,8 @@ const usePlayer = defineStore('player', {
 					let res = await fetchSongDetail(id)
 					this.songDetail = res.data.songs[0]
 					this.durationTime = res.data.songs[0].dt
+					console.log(res.data);
+					this.singerId = res.data.songs[0].ar[0].id
 					// 获取歌词
 					res = await fetchSongLyric(id)
 					this.lyrics = res.data.lrc.lyric
@@ -38,6 +43,14 @@ const usePlayer = defineStore('player', {
 				} catch(err) {
 					reject(err)
 				}
+			})
+		},
+		getSearchSinger(id) {
+			return new Promise(async (resolve) => {
+				const res = await fetchSearchSinger(this.singerId)
+				this.singerDetail = res.data.data
+				console.log('this.singerDetail=', this.singerDetail);
+				resolve()
 			})
 		}
 	}

@@ -1,6 +1,11 @@
 <template>
 	<view class="mainDetail">
-		<menuHeader v-if="data.type === 'menu' && data.songsInfo.coverImgUrl" :menuInfo="data.songsInfo" />
+		<template v-if="data.type === 'menu' && data.songsInfo.coverImgUrl">
+			<menuHeader  :menuInfo="data.songsInfo" />
+		</template>
+		<template v-else-if="data.type === 'singer'">
+			<singerInfo :singerInfo="playerStore.singerDetail"/>
+		</template>
 		<songItem :songsList="data.songs"/>
 		<playerBar/>
 	</view>
@@ -10,6 +15,7 @@
 import { reactive, computed } from 'vue'
 import useMusic from '@/store/module/mainMusic';
 import { onLoad } from '@dcloudio/uni-app'
+import usePlayer from '../../store/module/player';
 const data = reactive({
 	songsInfo: {},
 	songs: [],
@@ -18,7 +24,7 @@ const data = reactive({
     id: 0
 })
 const musicStore = useMusic()
-
+const playerStore = usePlayer()
 onLoad(async (options) => {
 	if(options.type) {
 		data.type = options.type

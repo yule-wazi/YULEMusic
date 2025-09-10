@@ -34,7 +34,7 @@
 					</view>
 					<view class="info">
 						<view class="title">{{playerStore.songDetail.name}}</view>
-						<view class="artist">{{playerStore.songDetail.ar[0].name}}</view>
+						<view class="artist" @click="searchSinger">{{playerStore.songDetail.ar[0].name}}</view>
 					</view>
 					<view class="lyrics">{{playerStore.currentLyrics}}</view>
 					<slider class="slider" 
@@ -86,6 +86,7 @@ import usePlayer from '../../store/module/player';
 import { formatPlayTime } from '@/utils/formatView.js'
 import { throttle } from '../../utils/throttle';
 import { audioInstance } from '../../utils/audioInstance';
+import useMusic from '../../store/module/mainMusic';
 const audioContext = audioInstance()
 const data = reactive({
 	id: 0,
@@ -101,8 +102,6 @@ onLoad(async (options) => {
 		playerStore.isFirstPlay = false
 		audioContext.onEnded(nextClick)
 	}
-	
-	console.log('playMusicOnLoad', options);
 	const id = options.id
 	// 获取屏幕高度
 	const systemInfo = uni.getSystemInfoSync();
@@ -228,6 +227,14 @@ const sliderChanging = (event) => {
 // 监听页面切换
 const pageChange = (event) => {
 	data.currentPage = event.detail.current
+}
+// 搜索歌手
+const searchSinger = async () => {
+	console.log('搜索歌手', playerStore.singerId);
+	await playerStore.getSearchSinger()
+	uni.navigateTo({
+		url: `/pages/mainDetail/mainDetail?type=singer&id=${playerStore.singerId}`
+	})
 }
 onUnload(() => {
 	clearInterval(timer)
