@@ -1,5 +1,5 @@
 <template>
-	<view v-if="data.isShow">
+	<view v-if="playerStore.isShow">
 		<view class="musicPlayer">
 			<image class="backgroundImg" :src="playerStore.songDetail.al.picUrl" mode="aspectFill"/>
 			<view class="backgroundMask"></view>
@@ -57,7 +57,7 @@
 							@click="playClick"
 						/>
 						<image class="next" src="/static/play_next.png" @click="nextClick"/>
-						<image class="list" src="/static/play_music.png" />
+						<image class="list" src="/static/play_music.png" @click="musicPopupRef?.openList()" />
 					</view>
 				</swiper-item>
 				<swiper-item class="musicLyrics">
@@ -74,12 +74,13 @@
 					</scroll-view>
 				</swiper-item>
 			</swiper>
+			<musicPopup	ref="musicPopupRef" />
 		</view>
 	</view>
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { onLoad, onUnload } from '@dcloudio/uni-app'
 import { fetchSongProxyUrl } from '../../service/module/plyaer';
 import usePlayer from '../../store/module/player';
@@ -93,7 +94,6 @@ const data = reactive({
 	titleConfig: ["歌曲", "歌词"],
 	contentHeight: 100,
 	currentPage: 0,
-	isShow: false,
 })	
 const playerStore = usePlayer()
 let timer = null
@@ -109,13 +109,14 @@ onLoad(async (options) => {
 	data.contentHeight = contentHeight - 44
 	// 获取歌曲
 	if(id) {
-		getSong(id)
+		// getSong(id)
+		playerStore.playSong(id)
 	} else {
-		data.isShow = true
+		playerStore.isShow = true
 	}
 	timer = setInterval(audioUpdate, 500)
 })
-// 播放暂停切换
+//播放暂停切换
 const playClick = () => {
     if(playerStore.isPlaying) {
       audioContext.pause()
@@ -133,6 +134,7 @@ const nextClick = () => {
 const prevClick = () => {
 	indexChange(false)
 }
+const musicPopupRef = ref(null)
 //歌曲跳转
 const indexChange = (next = true) => {
 	let songIndex = playerStore.songIndex
@@ -150,7 +152,7 @@ const indexChange = (next = true) => {
   }
   playerStore.songIndex = songIndex
   const currentId = playerStore.songList[songIndex].id
-  getSong(currentId)
+  playerStore.playSong(currentId)
 }
 // 切换模式
 const orderChange = () => {
@@ -160,30 +162,6 @@ const orderChange = () => {
 	playerStore.currentOrder = currentOrder
 	playerStore.currentOrderName = orderName[currentOrder]
 }
-//获取歌曲&播放
-const getSong = async(id) => {
-	const proxyRes = await fetchSongProxyUrl(id)
-	try {
-		console.log(proxyRes);
-		if(proxyRes.data.code !== 200) {
-			throw new Error(`HTTP error! status`);
-			return
-		} 
-		const proxyUrl = proxyRes.data.data.url
-		audioContext.src = proxyUrl
-	} catch(error) {
-		console.log('报错',error);
-		console.log('启动非代理url');
-		audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
-	}
-	await playerStore.getSongs(id)
-	data.isShow = true
-	audioContext.stop()
-	audioContext.autoplay = true
-	audioContext.play()
-	
-}
-
 const audioUpdate = () => {
 	if(playerStore.isSlide) return
 	// console.log('throttle');

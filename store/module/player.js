@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia' 
-import { fetchSongDetail, fetchSongLyric } from '@/service/module/plyaer'
+import { fetchSongDetail, fetchSongLyric, fetchSongProxyUrl } from '@/service/module/plyaer'
 import { formatLyrics } from '@/utils/formatView'
 import { fetchSearchSinger, fetchSingerSongs } from '../../service/module/search'
+import { audioInstance } from '../../utils/audioInstance'
+
+const audioContext = audioInstance()
 const usePlayer = defineStore('player', {
 	state: () => {
 		return {
@@ -21,6 +24,7 @@ const usePlayer = defineStore('player', {
 			scrollToTop: 0,
 			isSlide: false,
 			isPlaying: true,
+			isShow: false,
 			currentOrder: 0,
 			currentOrderName: "order",
 		}
@@ -44,6 +48,28 @@ const usePlayer = defineStore('player', {
 					reject(err)
 				}
 			})
+		},
+		//获取歌曲&播放
+		async playSong(id) {
+			const proxyRes = await fetchSongProxyUrl(id)
+			try {
+				console.log(proxyRes);
+				if(proxyRes.data.code !== 200) {
+					throw new Error(`HTTP error! status`);
+					return
+				} 
+				const proxyUrl = proxyRes.data.data.url
+				audioContext.src = proxyUrl
+			} catch(error) {
+				console.log('报错',error);
+				console.log('启动非代理url');
+				audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+			}
+			await this.getSongs(id)
+			this.isShow = true
+			audioContext.stop()
+			audioContext.autoplay = true
+			audioContext.play()
 		},
 		getSearchSingerInfo() {
 			return new Promise(async (resolve) => {
