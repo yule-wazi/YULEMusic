@@ -42,6 +42,7 @@
 </template>
 
 <script setup>
+import { myRequest } from '../../service';
 import useMusic from '@/store/module/mainMusic.js';
 import {watch, ref} from 'vue'
 // 切换至search页面

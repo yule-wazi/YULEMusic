@@ -16,13 +16,13 @@ export function fetchSongRecommend(id = 3778678) {
     }
   })
 }
-export function fetchSongMenu(cat = '全部', limit = 6, offset = 0) {
+export function fetchSongMenu(cat = '全部', limit = 10, offset = 0) {
   return myRequest.get({
     url: '/top/playlist',
     data: {
-      cat,
-      limit,
-      offset
+		cat,
+		limit,
+		offset
     }
   })
 }

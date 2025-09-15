@@ -1,18 +1,18 @@
 <template>
 	<view class="menuHeader">
 		<view class="bgImg">
-		    <image class="image" :src="singerInfo.user.backgroundUrl" mode="aspectFill"/>
+		    <image class="image" :src="info.bgImg" mode="aspectFill"/>
 		</view>
 		<view class="content">
 			<view class="info">
 				<view class="left">
-				    <image class="image" :src="singerInfo.user.avatarUrl" mode=""/>
+				    <image class="image" :src="info.leftImg" mode=""/>
 				</view>
 				<view class="right">
-				    <view class="title">{{singerInfo.user.nickname}}</view>
+				    <view class="title">{{info.nikeName}}</view>
 				    <view class="creator">
-						<image class="creatorImage" :src="singerInfo.artist.cover" mode=""/>
-						<view class="creatorName">{{singerInfo.artist.name}}</view>
+						<image class="creatorImage" :src="info.rightImg" mode=""/>
+						<view class="creatorName">{{info.name}}</view>
 				    </view>
 				    <view class="desc">简介：{{singerInfo.artist.briefDesc}}</view>
 				</view>
@@ -22,13 +22,34 @@
 </template>
 
 <script setup>
+import { computed, reactive } from 'vue';
 const props = defineProps({
 	singerInfo: {
 		type: Object,
 	    default: {}
 	}     
 })
-console.log('props=', props);
+const info = reactive({
+	bgImg: '',
+	leftImg: '',
+	rightImg: '',
+	nikeName: '',
+	name: ''
+})
+// 提取信息
+if(props.singerInfo.user) {
+	info.bgImg = props.singerInfo.user.backgroundUrl
+	info.leftImg = props.singerInfo.user.avatarUrl
+	info.rightImg = props.singerInfo.artist.cover
+	info.nikeName = props.singerInfo.user.nickname
+	info.name = props.singerInfo.artist.name
+} else {
+	info.bgImg = props.singerInfo.artist.avatar
+	info.leftImg = props.singerInfo.artist.avatar
+	info.rightImg = props.singerInfo.artist.cover
+	info.nikeName = props.singerInfo.artist.name
+	info.name = props.singerInfo.artist.name
+}
 </script>
 
 <style lang="scss">

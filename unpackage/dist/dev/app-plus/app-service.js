@@ -3190,6 +3190,11 @@ This will fail in production if not fixed.`);
       url: `/artist/detail?id=${id}`
     });
   }
+  function fetchSingerSongs(id) {
+    return myRequest.get({
+      url: `/artists?id=${id}`
+    });
+  }
   const usePlayer = defineStore("player", {
     state: () => {
       return {
@@ -3231,12 +3236,17 @@ This will fail in production if not fixed.`);
           }
         });
       },
-      getSearchSinger(id) {
+      getSearchSingerInfo() {
         return new Promise(async (resolve) => {
           const res = await fetchSearchSinger(this.singerId);
           this.singerDetail = res.data.data;
-          formatAppLog("log", "at store/module/player.js:52", "this.singerDetail=", this.singerDetail);
           resolve();
+        });
+      },
+      getSingerSongs() {
+        return new Promise(async (resolve) => {
+          const res = await fetchSingerSongs(this.singerId);
+          resolve(res.data.hotSongs);
         });
       }
     }
@@ -4067,7 +4077,7 @@ This will fail in production if not fixed.`);
         }
         const res = await fetchSearchSuggest(value);
         const searchSuggest = res.data.result.songs;
-        data.searchSuggest = searchSuggest;
+        data.searchSuggest = searchSuggest ?? [];
       };
       const searchSuggestClick = (value) => {
         data.keyword = value;
@@ -4255,8 +4265,27 @@ This will fail in production if not fixed.`);
     setup(__props, { expose: __expose }) {
       __expose();
       const props = __props;
-      formatAppLog("log", "at components/singerInfo/singerInfo.vue:31", "props=", props);
-      const __returned__ = { props };
+      const info = vue.reactive({
+        bgImg: "",
+        leftImg: "",
+        rightImg: "",
+        nikeName: "",
+        name: ""
+      });
+      if (props.singerInfo.user) {
+        info.bgImg = props.singerInfo.user.backgroundUrl;
+        info.leftImg = props.singerInfo.user.avatarUrl;
+        info.rightImg = props.singerInfo.artist.cover;
+        info.nikeName = props.singerInfo.user.nickname;
+        info.name = props.singerInfo.artist.name;
+      } else {
+        info.bgImg = props.singerInfo.artist.avatar;
+        info.leftImg = props.singerInfo.artist.avatar;
+        info.rightImg = props.singerInfo.artist.cover;
+        info.nikeName = props.singerInfo.artist.name;
+        info.name = props.singerInfo.artist.name;
+      }
+      const __returned__ = { props, info, computed: vue.computed, reactive: vue.reactive };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
@@ -4266,7 +4295,7 @@ This will fail in production if not fixed.`);
       vue.createElementVNode("view", { class: "bgImg" }, [
         vue.createElementVNode("image", {
           class: "image",
-          src: $props.singerInfo.user.backgroundUrl,
+          src: $setup.info.bgImg,
           mode: "aspectFill"
         }, null, 8, ["src"])
       ]),
@@ -4275,7 +4304,7 @@ This will fail in production if not fixed.`);
           vue.createElementVNode("view", { class: "left" }, [
             vue.createElementVNode("image", {
               class: "image",
-              src: $props.singerInfo.user.avatarUrl,
+              src: $setup.info.leftImg,
               mode: ""
             }, null, 8, ["src"])
           ]),
@@ -4283,20 +4312,20 @@ This will fail in production if not fixed.`);
             vue.createElementVNode(
               "view",
               { class: "title" },
-              vue.toDisplayString($props.singerInfo.user.nickname),
+              vue.toDisplayString($setup.info.nikeName),
               1
               /* TEXT */
             ),
             vue.createElementVNode("view", { class: "creator" }, [
               vue.createElementVNode("image", {
                 class: "creatorImage",
-                src: $props.singerInfo.artist.cover,
+                src: $setup.info.rightImg,
                 mode: ""
               }, null, 8, ["src"]),
               vue.createElementVNode(
                 "view",
                 { class: "creatorName" },
-                vue.toDisplayString($props.singerInfo.artist.name),
+                vue.toDisplayString($setup.info.name),
                 1
                 /* TEXT */
               )
@@ -4328,6 +4357,7 @@ This will fail in production if not fixed.`);
       const musicStore = useMusic();
       const playerStore = usePlayer();
       onLoad(async (options) => {
+        formatAppLog("log", "at pages/mainDetail/mainDetail.vue:29", "options=", options);
         if (options.type) {
           data.type = options.type;
         }
@@ -4344,6 +4374,10 @@ This will fail in production if not fixed.`);
           uni.setNavigationBarTitle({ title: options.key ?? "" });
           await musicStore.getRankingSongs(options.id);
           data.songs = musicStore.rankingSongs;
+        } else if (options.type === "singer") {
+          formatAppLog("log", "at pages/mainDetail/mainDetail.vue:47", "搜索歌手歌单");
+          uni.setNavigationBarTitle({ title: `${playerStore.singerDetail.artist.name}` });
+          data.songs = await playerStore.getSingerSongs();
         }
       });
       const __returned__ = { data, musicStore, playerStore, reactive: vue.reactive, computed: vue.computed, get useMusic() {
@@ -4929,8 +4963,8 @@ This will fail in production if not fixed.`);
       };
       const searchSinger = async () => {
         formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:233", "搜索歌手", playerStore.singerId);
-        await playerStore.getSearchSinger();
-        uni.navigateTo({
+        await playerStore.getSearchSingerInfo();
+        uni.redirectTo({
           url: `/pages/mainDetail/mainDetail?type=singer&id=${playerStore.singerId}`
         });
       };

@@ -72,7 +72,7 @@ const searchChange = async(value) => {
 	}
 	const res = await fetchSearchSuggest(value)
 	const searchSuggest = res.data.result.songs
-	data.searchSuggest = searchSuggest
+	data.searchSuggest = searchSuggest ?? []
 }
 // 推荐搜索点击
 const searchSuggestClick = (value) => {

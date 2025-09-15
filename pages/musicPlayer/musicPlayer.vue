@@ -231,8 +231,8 @@ const pageChange = (event) => {
 // 搜索歌手
 const searchSinger = async () => {
 	console.log('搜索歌手', playerStore.singerId);
-	await playerStore.getSearchSinger()
-	uni.navigateTo({
+	await playerStore.getSearchSingerInfo()
+	uni.redirectTo({
 		url: `/pages/mainDetail/mainDetail?type=singer&id=${playerStore.singerId}`
 	})
 }

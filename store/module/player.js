@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia' 
 import { fetchSongDetail, fetchSongLyric } from '@/service/module/plyaer'
 import { formatLyrics } from '@/utils/formatView'
-import { fetchSearchSinger } from '../../service/module/search'
+import { fetchSearchSinger, fetchSingerSongs } from '../../service/module/search'
 const usePlayer = defineStore('player', {
 	state: () => {
 		return {
@@ -45,12 +45,17 @@ const usePlayer = defineStore('player', {
 				}
 			})
 		},
-		getSearchSinger(id) {
+		getSearchSingerInfo() {
 			return new Promise(async (resolve) => {
 				const res = await fetchSearchSinger(this.singerId)
 				this.singerDetail = res.data.data
-				console.log('this.singerDetail=', this.singerDetail);
 				resolve()
+			})
+		},
+		getSingerSongs() {
+			return new Promise(async (resolve) => {
+				const res = await fetchSingerSongs(this.singerId)
+				resolve(res.data.hotSongs)
 			})
 		}
 	}

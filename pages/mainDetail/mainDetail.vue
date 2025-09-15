@@ -26,6 +26,7 @@ const data = reactive({
 const musicStore = useMusic()
 const playerStore = usePlayer()
 onLoad(async (options) => {
+	console.log('options=', options);
 	if(options.type) {
 		data.type = options.type
 	}
@@ -42,6 +43,10 @@ onLoad(async (options) => {
 		uni.setNavigationBarTitle({ title: options.key ?? '' })
 		await musicStore.getRankingSongs(options.id)
 		data.songs = musicStore.rankingSongs
+	} else if (options.type === 'singer') {
+		console.log('搜索歌手歌单');
+		uni.setNavigationBarTitle({ title: `${playerStore.singerDetail.artist.name}` })
+		data.songs = await playerStore.getSingerSongs()
 	}
 })
 </script>

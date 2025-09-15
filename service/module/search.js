@@ -23,3 +23,9 @@ export function fetchSearchSinger(id) {
 		url: `/artist/detail?id=${id}`
 	})
 }
+
+export function fetchSingerSongs(id) {
+	return myRequest.get({
+		url: `/artists?id=${id}`
+	})
+}
