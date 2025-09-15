@@ -1,7 +1,7 @@
 <template>
 	<view class="mainDetail">
 		<template v-if="data.type === 'menu' && data.songsInfo.coverImgUrl">
-			<menuHeader  :menuInfo="data.songsInfo" />
+			<menuHeader :menuInfo="data.songsInfo" />
 		</template>
 		<template v-else-if="data.type === 'singer'">
 			<singerInfo :singerInfo="playerStore.singerDetail"/>

@@ -10,9 +10,8 @@
 			<template v-for="(item, index) in playerStore.songList">
 				<view class="item" 
 					:class="{active: index === playerStore.songIndex}" 
-					@click="changeSong(index)"
 				>
-					<view class="content">
+					<view class="content" @click="changeSong(index)">
 						<text class="songName">{{item.name}}</text>
 						<text class="singer" 
 							:class="{active: index === playerStore.songIndex}"
@@ -20,7 +19,7 @@
 							· {{item.ar[0].name}}
 						</text>
 					</view>
-					<view class="destroy">
+					<view class="destroy" @click="popItem(index)">
 						<uni-icons type="closeempty" size="35rpx" color="#aaa"></uni-icons>
 					</view>
 				</view>
@@ -59,11 +58,21 @@ const orderChange = () => {
 	playerStore.currentOrderName = orderName[currentOrder]
 }
 // 切歌
-const changeSong = (index) => {
-	if(playerStore.songIndex === index) return
+const changeSong = (index, isForce = false) => {
+	if(playerStore.songIndex === index && !isForce) return
 	playerStore.songIndex = index
 	const currentId = playerStore.songList[index].id
 	playerStore.playSong(currentId)
+}
+// 删除该项
+const popItem = (index) => {
+	const newList = [...playerStore.songList.slice(0, index), ...playerStore.songList.slice(index+1)] 
+	playerStore.songList = newList
+	if(index < playerStore.songIndex) {
+		playerStore.songIndex--
+	} else if (index === playerStore.songIndex) {
+		changeSong(index, true)
+	}
 }
 defineExpose({
 	openList
@@ -107,7 +116,7 @@ defineExpose({
 		padding: 30rpx 30rpx;
 		justify-content: space-between;
 		.content {
-			max-width: 90%;
+			width: 90%;
 			display: -webkit-box;
 			-webkit-line-clamp: 1;
 			-webkit-box-orient: vertical;
@@ -119,6 +128,10 @@ defineExpose({
 				font-size: 25rpx;
 				color: #666;
 			}
+		}
+		.destroy {
+			width: 10%;
+			text-align: center;
 		}
 	}
 	.active {

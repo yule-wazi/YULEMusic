@@ -776,7 +776,7 @@
   justify-content: space-between;
 }
 .songList .item .content[data-v-6521bd4c] {
-  max-width: 90%;
+  width: 90%;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -788,6 +788,10 @@
 .songList .item .content .singer[data-v-6521bd4c] {
   font-size: 0.78125rem;
   color: #666;
+}
+.songList .item .destroy[data-v-6521bd4c] {
+  width: 10%;
+  text-align: center;
 }
 .songList .active[data-v-6521bd4c] {
   background-color: #F6F6F6;

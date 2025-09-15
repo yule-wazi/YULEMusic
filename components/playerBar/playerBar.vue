@@ -1,9 +1,9 @@
 <template>
-	<view class="playerBar" v-if="playerStore.songDetail.al" @click="songClick">
-		<view class="album" ref="album" :class="{playing: playerStore.isPlaying}">
+	<view class="playerBar" v-if="playerStore.songDetail.al" >
+		<view class="album" ref="album" :class="{playing: playerStore.isPlaying}" @click="songClick">
 			<image class="albumImg" :src="playerStore.songDetail.al.picUrl" mode="heightFix"/>
 		</view>
-		<view class="songInfo">{{playerStore.songDetail.name}}</view>
+		<view class="songInfo" @click="songClick">{{playerStore.songDetail.name}}</view>
 		<view class="controls">
 			<image
 				class="pause"
@@ -11,8 +11,9 @@
 				@click.stop
 				@click="playClick"
 			/>
-			<image class="list" src="/static/play_musicList.png" />
+			<image class="list" src="/static/play_musicList.png" @click.stop @click="musicPopupRef?.openList()" />
 		</view>
+		<musicPopup ref="musicPopupRef" />
 	</view>
 </template>
 
@@ -40,6 +41,7 @@ const songClick = () => {
 		url: `/pages/musicPlayer/musicPlayer`
 	})
 }
+const musicPopupRef = ref()
 </script>
 
 <style lang="scss">
