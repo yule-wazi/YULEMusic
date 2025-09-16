@@ -26,14 +26,26 @@ const props = defineProps({
 	songsList: {
 		type: Object,
 		default: {}
+	},
+	isSearch: {
+		type: Boolean,
+		default: false
 	}
 })
 const playerStore = usePlayer()
 // 歌曲点击
 const songClick = (item, index) => {
 	console.log('歌曲点击');
-	playerStore.songList = props.songsList
-	playerStore.songIndex = index
+	if(props.isSearch) {
+		console.log('歌曲搜索');
+		playerStore.songList = 
+		[...playerStore.songList.slice(0, playerStore.songIndex + 1), item, ...playerStore.songList.slice(playerStore.songIndex + 1)]
+		playerStore.songIndex++
+	} else {
+		playerStore.songList = props.songsList
+		playerStore.songIndex = index
+	}
+	
 	uni.navigateTo({
 		url: `/pages/musicPlayer/musicPlayer?id=${item.id}`
 	})

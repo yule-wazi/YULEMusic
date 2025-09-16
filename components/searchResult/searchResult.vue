@@ -1,7 +1,7 @@
 <template>
 	<view class="searchResult">
 		<areaHeader title="单曲" :isMore="false"/>
-		<songItem :songsList="songs"/>
+		<songItem :songsList="songs" :isSearch="true"/>
 	</view>
 </template>
 

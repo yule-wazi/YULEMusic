@@ -4857,6 +4857,10 @@ This will fail in production if not fixed.`);
       songsList: {
         type: Object,
         default: {}
+      },
+      isSearch: {
+        type: Boolean,
+        default: false
       }
     },
     setup(__props, { expose: __expose }) {
@@ -4864,9 +4868,15 @@ This will fail in production if not fixed.`);
       const props = __props;
       const playerStore = usePlayer();
       const songClick = (item, index) => {
-        formatAppLog("log", "at components/songItem/songItem.vue:34", "歌曲点击");
-        playerStore.songList = props.songsList;
-        playerStore.songIndex = index;
+        formatAppLog("log", "at components/songItem/songItem.vue:38", "歌曲点击");
+        if (props.isSearch) {
+          formatAppLog("log", "at components/songItem/songItem.vue:40", "歌曲搜索");
+          playerStore.songList = [...playerStore.songList.slice(0, playerStore.songIndex + 1), item, ...playerStore.songList.slice(playerStore.songIndex + 1)];
+          playerStore.songIndex++;
+        } else {
+          playerStore.songList = props.songsList;
+          playerStore.songIndex = index;
+        }
         uni.navigateTo({
           url: `/pages/musicPlayer/musicPlayer?id=${item.id}`
         });
@@ -4954,7 +4964,10 @@ This will fail in production if not fixed.`);
         title: "单曲",
         isMore: false
       }),
-      vue.createVNode(_component_songItem, { songsList: $props.songs }, null, 8, ["songsList"])
+      vue.createVNode(_component_songItem, {
+        songsList: $props.songs,
+        isSearch: true
+      }, null, 8, ["songsList"])
     ]);
   }
   const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__file", "D:/uniApp学习/YULEMusic/components/searchResult/searchResult.vue"]]);
