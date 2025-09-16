@@ -22,7 +22,7 @@ export function formatLyrics(lyrics) {
   for(const lyric of lyricsLine) {
     if(!lyric) continue
     const result = timeReg.exec(lyric)
-    // console.log(result);
+	if(!result) return []
     const min = result[1] * 60 * 1000
     const sec = result[2] * 1000
     const mil = result[3].length > 2 ? result[3] * 1 : result[3] * 10

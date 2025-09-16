@@ -280,9 +280,21 @@ uni.setKeepScreenOn({
 		.info {
 			margin-bottom: 40rpx;
 			.title {
+				width: 100%;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 1;
+				overflow: hidden;
 				font-size: 50rpx;
 				font-weight: 700;
 				margin-bottom: 10rpx;
+			}
+			.artist {
+				width: 100%;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 1;
+				overflow: hidden;
 			}
 		}
 		.lyrics {

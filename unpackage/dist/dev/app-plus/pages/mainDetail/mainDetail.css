@@ -779,9 +779,14 @@
   text-align: center;
 }
 .songItems .song .songItem .name[data-v-4e46afe4] {
+  width: 100%;
   font-size: 1.25rem;
   margin-bottom: 0.3125rem;
   font-weight: 400;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 .songItems .song .songItem .info[data-v-4e46afe4] {
   display: flex;

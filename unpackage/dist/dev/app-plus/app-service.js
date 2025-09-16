@@ -3092,11 +3092,13 @@ This will fail in production if not fixed.`);
           newRanking: 3779629,
           uperRanking: 19723756
         };
+        let promiseList = [];
         for (const key in rankingMap) {
           const id = rankingMap[key];
-          const res = await fetchSongRecommend(id);
-          this.rankingMenuList.push(res.data.playlist);
+          promiseList.push(fetchSongRecommend(id));
         }
+        const res = await Promise.all(promiseList);
+        this.rankingMenuList = res.map((res2) => res2.data.playlist);
       },
       getRankingSongs(id) {
         return new Promise(async (resolve, resject) => {
@@ -3161,6 +3163,8 @@ This will fail in production if not fixed.`);
       if (!lyric)
         continue;
       const result = timeReg.exec(lyric);
+      if (!result)
+        return [];
       const min = result[1] * 60 * 1e3;
       const sec = result[2] * 1e3;
       const mil = result[3].length > 2 ? result[3] * 1 : result[3] * 10;

@@ -57,9 +57,14 @@ const songClick = (item, index) => {
 		}
 		.songItem {
 			.name {
+				width: 100%;
 				font-size: 40rpx;
 				margin-bottom: 10rpx;
 				font-weight: 400;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 1;
+				overflow: hidden;
 			}
 			.info {
 				display: flex;

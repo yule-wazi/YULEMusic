@@ -697,8 +697,13 @@
   border-radius: 8px;
 }
 .songRecommend .song .left .info .name[data-v-eb4aac09] {
+  width: 100%;
   margin: 0.625rem 0;
   font-size: 1.09375rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 .songRecommend .song .left .info .artist[data-v-eb4aac09] {
   font-size: 0.875rem;
@@ -846,14 +851,14 @@
   font-weight: 400;
 }
 .rankingItem .left .song[data-v-6e9a9b4d] {
-  display: flex;
   flex-direction: row;
   font-size: 0.9375rem;
   margin-top: 0.15625rem;
   width: 12.5rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .rankingItem .right .Img[data-v-6e9a9b4d] {
   height: 100%;

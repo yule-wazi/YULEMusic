@@ -877,9 +877,21 @@
   margin-bottom: 1.25rem;
 }
 .musicPlayer .musicPage .info .title {
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
   font-size: 1.5625rem;
   font-weight: 700;
   margin-bottom: 0.3125rem;
+}
+.musicPlayer .musicPage .info .artist {
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 .musicPlayer .musicPage .lyrics {
   width: 85%;

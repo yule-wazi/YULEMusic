@@ -58,8 +58,13 @@ const songClick = (item, index) => {
 		}
 		.info {
 			.name {
+			  width: 100%;
 			  margin: 20rpx 0;
 			  font-size: 35rpx;
+			  display: -webkit-box;
+			  -webkit-box-orient: vertical;
+			  -webkit-line-clamp: 1;
+			  overflow: hidden;
 			}
 			.artist {
 			  font-size: 28rpx;

@@ -61,14 +61,14 @@ const rankingClick = () => {
 			font-weight: 400;
 		}
 		.song {
-			display: flex;
 			flex-direction: row;
 			font-size: 30rpx;
 			margin-top: 5rpx;
 			width: 400rpx;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 1;
 			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
 		}
 	}
 	.right {

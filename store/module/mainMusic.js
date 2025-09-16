@@ -59,11 +59,13 @@ const useMusic = defineStore('music', {
 				newRanking:3779629,
 				uperRanking: 19723756
 			}
+			let promiseList = []
 			for(const key in rankingMap) {
 		        const id = rankingMap[key]
-		        const res = await fetchSongRecommend(id)
-				this.rankingMenuList.push(res.data.playlist)
+		        promiseList.push(fetchSongRecommend(id))
 		    }
+			const res = await Promise.all(promiseList)
+			this.rankingMenuList = res.map((res) => res.data.playlist)
 		},
 		getRankingSongs(id) {
 			return new Promise(async (resolve, resject) => {
