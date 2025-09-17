@@ -6,7 +6,8 @@
 				<text class="text">{{orderName}}</text>
 			</button>
 			<button class="timer" @click='timerPopup.open()'>
-				定时器
+				<image src="/static/list_countdown.png" mode=""></image>
+				<text class="text">定时关闭</text>
 			</button>
 		</view>
 		<view class="songList">
@@ -151,7 +152,10 @@ const setTimer = () => {
 .order {
 	height: 100rpx;
 	display: flex;
-	.orderButton {
+	justify-content: space-between;
+	padding: 20rpx;
+	box-shadow: 20rpx 0 20rpx #aaa;
+	.orderButton, .timer {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -162,7 +166,7 @@ const setTimer = () => {
 			border: none;
 		}
 		background-color: #F6F6F6;
-		margin: 20rpx 0 0 20rpx;
+		margin: 20rpx;
 		image {
 			width: 40rpx;
 			height:40rpx;
@@ -214,7 +218,7 @@ const setTimer = () => {
 		text-align: center;
 		font-weight: 400;
 		padding: 20rpx;
-		box-shadow: 0rpx 10rpx 10rpx #999999;
+		box-shadow: 20rpx 0 20rpx #aaa;
 	}
 	.timerSelector {
 		.timerItem {

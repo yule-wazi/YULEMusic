@@ -4353,7 +4353,8 @@ This will fail in production if not fixed.`);
     )) : vue.createCommentVNode("v-if", true);
   }
   const __easycom_1$4 = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$j], ["__scopeId", "data-v-4dd3c44b"], ["__file", "D:/uniApp学习/YULEMusic/uni_modules/uni-popup/components/uni-popup/uni-popup.vue"]]);
-  const _imports_0$3 = "/static/check_item.png";
+  const _imports_0$3 = "/static/list_countdown.png";
+  const _imports_1$1 = "/static/check_item.png";
   const _sfc_main$j = {
     __name: "musicPopup",
     setup(__props, { expose: __expose }) {
@@ -4426,7 +4427,7 @@ This will fail in production if not fixed.`);
       const setTimer = () => {
         timerDuration.value -= 1e3;
         if (!timerDuration.value) {
-          formatAppLog("log", "at components/musicPopup/musicPopup.vue:134", "时间到了");
+          formatAppLog("log", "at components/musicPopup/musicPopup.vue:135", "时间到了");
           audioContext2.pause();
           playerStore.isPlaying = false;
           clearInterval(timer);
@@ -4434,7 +4435,7 @@ This will fail in production if not fixed.`);
           uni.setKeepScreenOn({
             keepScreenOn: false,
             success: () => {
-              formatAppLog("log", "at components/musicPopup/musicPopup.vue:142", "关闭常亮");
+              formatAppLog("log", "at components/musicPopup/musicPopup.vue:143", "关闭常亮");
             }
           });
         }
@@ -4486,7 +4487,13 @@ This will fail in production if not fixed.`);
             vue.createElementVNode("button", {
               class: "timer",
               onClick: _cache[0] || (_cache[0] = ($event) => $setup.timerPopup.open())
-            }, " 定时器 ")
+            }, [
+              vue.createElementVNode("image", {
+                src: _imports_0$3,
+                mode: ""
+              }),
+              vue.createElementVNode("text", { class: "text" }, "定时关闭")
+            ])
           ]),
           vue.createElementVNode("view", { class: "songList" }, [
             (vue.openBlock(true), vue.createElementBlock(
@@ -4582,7 +4589,7 @@ This will fail in production if not fixed.`);
                         index === $setup.playerStore.timerActive ? (vue.openBlock(), vue.createElementBlock("image", {
                           key: 0,
                           class: "timerActive",
-                          src: _imports_0$3
+                          src: _imports_1$1
                         })) : vue.createCommentVNode("v-if", true)
                       ], 8, ["onClick"]);
                     }),
