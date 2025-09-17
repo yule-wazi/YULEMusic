@@ -20,6 +20,7 @@ const usePlayer = defineStore('player', {
 			currentLyrics: "",
 			currentTime: 0,
 			durationTime: 0,
+			timerDuration: 0,
 			sliderLength: 0,
 			scrollToTop: 0,
 			isSlide: false,

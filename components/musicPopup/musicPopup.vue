@@ -41,7 +41,7 @@
 									v-if="playerStore.timerActive === index && index" 
 									class="countdown"
 								>
-									{{formatPlayTime(timerDuration)}}
+									{{formatPlayTime(playerStore.timerDuration)}}
 								</view>
 							</view>
 							<image v-if="index === playerStore.timerActive" class="timerActive" src="/static/check_item.png" />
@@ -112,28 +112,27 @@ const timerList = [
 	{label: '60分钟', value: 3600000},
 	{label: '90分钟', value: 5400000},
 ]
-const timerDuration = ref(0)
 defineExpose({
 	openList
 })
 // 选择定时时间
 let timer = null
 const timerClick = (index) => {
-	playerStore.timerActive = index
-	timerPopup.value.close()
-	timerDuration.value = timerList[index].value
-	// 开启定时关闭
+	// 关闭定时器
 	if(timer) {
 		clearInterval(timer)
 	}
+	playerStore.timerActive = index
+	timerPopup.value.close()
+	playerStore.timerDuration = timerList[index].value
 	if(index) {
 		timer = setInterval(setTimer, 1000)
 	}
 }
 // 设置定时器
 const setTimer = () => {
-	timerDuration.value -= 1000
-	if(!timerDuration.value) {
+	playerStore.timerDuration -= 1000
+	if(playerStore.timerDuration <= 0) {
 		console.log('时间到了');
 		audioContext.pause()
 		playerStore.isPlaying = false
@@ -146,7 +145,7 @@ const setTimer = () => {
 			}
 		})
 	}
-	// console.log('timerDuration.value=', timerDuration.value);
+	console.log('playerStore.timerDuration', playerStore.timerDuration);
 }
 </script>
 
