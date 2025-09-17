@@ -4656,15 +4656,14 @@ This will fail in production if not fixed.`);
       vue.createElementVNode(
         "view",
         {
-          class: vue.normalizeClass(["album", { playing: $setup.playerStore.isPlaying }]),
           ref: "album",
+          class: vue.normalizeClass(["album", { playing: $setup.playerStore.isPlaying }]),
           onClick: $setup.songClick
         },
         [
           vue.createElementVNode("image", {
             class: "albumImg",
-            src: $setup.playerStore.songDetail.al.picUrl,
-            mode: "heightFix"
+            src: $setup.playerStore.songDetail.al.picUrl
           }, null, 8, ["src"])
         ],
         2

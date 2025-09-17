@@ -23,11 +23,14 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.order {
+.musicPopup .order {
   height: 100rpx;
   display: flex;
+  justify-content: space-between;
+  padding: 20rpx;
+  box-shadow: 20rpx 0 20rpx #aaa;
 }
-.order .orderButton {
+.musicPopup .order .orderButton, .musicPopup .order .timer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,74 +38,81 @@
   height: 80rpx;
   border-radius: 40rpx;
   background-color: #F6F6F6;
-  margin: 20rpx 0 0 20rpx;
+  margin: 20rpx;
 }
-.order .orderButton::after {
+.musicPopup .order .orderButton::after, .musicPopup .order .timer::after {
   border: none;
 }
-.order .orderButton image {
+.musicPopup .order .orderButton image, .musicPopup .order .timer image {
   width: 40rpx;
   height: 40rpx;
 }
-.order .orderButton .text {
+.musicPopup .order .orderButton .text, .musicPopup .order .timer .text {
   font-size: 32rpx;
 }
-.songList {
+.musicPopup .songList {
   height: 900rpx;
   overflow: scroll;
   display: flex;
   flex-direction: column;
 }
-.songList::-webkit-scrollbar {
+.musicPopup .songList::-webkit-scrollbar {
   display: none;
 }
-.songList .item {
+.musicPopup .songList .item {
   display: flex;
   padding: 30rpx 30rpx;
   justify-content: space-between;
 }
-.songList .item .content {
+.musicPopup .songList .item .content {
   width: 90%;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.songList .item .content .songName {
+.musicPopup .songList .item .content .songName {
   font-size: 35rpx;
 }
-.songList .item .content .singer {
+.musicPopup .songList .item .content .singer {
   font-size: 25rpx;
   color: #666;
 }
-.songList .item .destroy {
+.musicPopup .songList .item .destroy {
   width: 10%;
   text-align: center;
 }
-.songList .active {
+.musicPopup .songList .active {
   background-color: #F6F6F6;
   color: #26CE8A !important;
 }
-.timerSelector .timerItem {
+.musicPopup .timerPopup .title {
+  font-size: 40rpx;
+  text-align: center;
+  font-weight: 400;
+  padding: 20rpx;
+  box-shadow: 20rpx 0 20rpx #aaa;
+}
+.musicPopup .timerPopup .timerSelector .timerItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20rpx 30rpx;
   border-top: 1rpx solid rgba(155, 155, 155, 0.5);
 }
-.timerSelector .timerItem .timerContent {
+.musicPopup .timerPopup .timerSelector .timerItem .timerContent {
   display: flex;
   align-items: center;
 }
-.timerSelector .timerItem .timerContent .text {
+.musicPopup .timerPopup .timerSelector .timerItem .timerContent .text {
   font-size: 35rpx;
 }
-.timerSelector .timerItem .timerContent .countdown {
+.musicPopup .timerPopup .timerSelector .timerItem .timerContent .countdown {
   margin-left: 40rpx;
   font-size: 25rpx;
   color: #666;
 }
-.timerSelector .timerItem .timerActive {
+.musicPopup .timerPopup .timerSelector .timerItem .timerActive {
   height: 40rpx;
   width: 40rpx;
 }

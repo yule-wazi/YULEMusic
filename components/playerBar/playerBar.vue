@@ -1,7 +1,12 @@
 <template>
 	<view class="playerBar" v-if="playerStore.songDetail.al" >
-		<view class="album" ref="album" :class="{playing: playerStore.isPlaying}" @click="songClick">
-			<image class="albumImg" :src="playerStore.songDetail.al.picUrl" mode="heightFix"/>
+		<view 
+			ref="album" 
+			class="album" 
+			:class="{playing: playerStore.isPlaying}" 
+			@click="songClick"
+		>
+			<image class="albumImg" :src="playerStore.songDetail.al.picUrl"  />
 		</view>
 		<view class="songInfo" @click="songClick">{{playerStore.songDetail.name}}</view>
 		<view class="controls">
@@ -20,7 +25,6 @@
 import { ref } from 'vue';
 import usePlayer from '../../store/module/player';
 import { audioInstance } from '../../utils/audioInstance';
-
 const audioContext = audioInstance()
 const playerStore = usePlayer()
 const album = ref(null)
@@ -65,7 +69,9 @@ const musicPopupRef = ref()
 		position: absolute;
 		bottom: 0;
 		border: 25rpx solid #020203;
-		height: 120%;
+		// height: 120%;
+		height: 150rpx;
+		width: 150rpx;
 		border-radius: 50%;
 		box-sizing: border-box;
 		overflow: hidden;
@@ -73,6 +79,8 @@ const musicPopupRef = ref()
 		animation-play-state: paused;
 		.albumImg {
 			height: 100%;
+			width: 100%;
+			object-fit: cover;
 		}
 		&.playing {
 		  animation-play-state: running;

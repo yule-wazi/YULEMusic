@@ -49,7 +49,8 @@
   position: absolute;
   bottom: 0;
   border: 25rpx solid #020203;
-  height: 120%;
+  height: 150rpx;
+  width: 150rpx;
   border-radius: 50%;
   box-sizing: border-box;
   overflow: hidden;
@@ -58,6 +59,8 @@
 }
 .playerBar .album .albumImg {
   height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 .playerBar .album.playing {
   animation-play-state: running;

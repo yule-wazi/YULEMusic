@@ -848,7 +848,8 @@
   position: absolute;
   bottom: 0;
   border: 0.78125rem solid #020203;
-  height: 120%;
+  height: 4.6875rem;
+  width: 4.6875rem;
   border-radius: 50%;
   box-sizing: border-box;
   overflow: hidden;
@@ -857,6 +858,8 @@
 }
 .playerBar .album .albumImg[data-v-c5ad1ae6] {
   height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 .playerBar .album.playing[data-v-c5ad1ae6] {
   animation-play-state: running;

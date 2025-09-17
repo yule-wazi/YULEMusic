@@ -61,7 +61,7 @@ const _sfc_main = {
     };
     const timerList = [
       { label: "不开启", value: 0 },
-      { label: "10秒钟", value: 1e4 },
+      { label: "3秒钟", value: 3e3 },
       { label: "15分钟", value: 9e5 },
       { label: "30分钟", value: 18e5 },
       { label: "60分钟", value: 36e5 },
@@ -86,7 +86,7 @@ const _sfc_main = {
     const setTimer = () => {
       timerDuration.value -= 1e3;
       if (!timerDuration.value) {
-        common_vendor.index.__f__("log", "at components/musicPopup/musicPopup.vue:133", "时间到了");
+        common_vendor.index.__f__("log", "at components/musicPopup/musicPopup.vue:137", "时间到了");
         audioContext.pause();
         playerStore.isPlaying = false;
         clearInterval(timer);
@@ -94,22 +94,19 @@ const _sfc_main = {
         common_vendor.index.setKeepScreenOn({
           keepScreenOn: false,
           success: () => {
-            common_vendor.index.__f__("log", "at components/musicPopup/musicPopup.vue:141", "关闭常亮");
-          },
-          fail: (err) => {
-            common_vendor.index.__f__("log", "at components/musicPopup/musicPopup.vue:144", "失败", err);
+            common_vendor.index.__f__("log", "at components/musicPopup/musicPopup.vue:145", "关闭常亮");
           }
         });
       }
-      common_vendor.index.__f__("log", "at components/musicPopup/musicPopup.vue:148", "timerDuration.value=", timerDuration.value);
     };
     return (_ctx, _cache) => {
       return {
         a: `/static/list_${common_vendor.unref(playerStore).currentOrderName}.png`,
         b: common_vendor.t(orderName.value),
         c: common_vendor.o(orderChange),
-        d: common_vendor.o(($event) => timerPopup.value.open()),
-        e: common_vendor.f(common_vendor.unref(playerStore).songList, (item, index, i0) => {
+        d: common_assets._imports_0$3,
+        e: common_vendor.o(($event) => timerPopup.value.open()),
+        f: common_vendor.f(common_vendor.unref(playerStore).songList, (item, index, i0) => {
           return {
             a: common_vendor.t(item.name),
             b: common_vendor.t(item.ar[0].name),
@@ -120,12 +117,12 @@ const _sfc_main = {
             g: index === common_vendor.unref(playerStore).songIndex ? 1 : ""
           };
         }),
-        f: common_vendor.p({
+        g: common_vendor.p({
           type: "closeempty",
           size: "35rpx",
           color: "#aaa"
         }),
-        g: common_vendor.f(timerList, (item, index, i0) => {
+        h: common_vendor.f(timerList, (item, index, i0) => {
           return common_vendor.e({
             a: common_vendor.t(item.label),
             b: common_vendor.unref(playerStore).timerActive === index && index
@@ -134,23 +131,23 @@ const _sfc_main = {
           } : {}, {
             d: index === common_vendor.unref(playerStore).timerActive
           }, index === common_vendor.unref(playerStore).timerActive ? {
-            e: common_assets._imports_0$3
+            e: common_assets._imports_1$1
           } : {}, {
             f: common_vendor.o(($event) => timerClick(index))
           });
         }),
-        h: common_vendor.sr(timerPopup, "0cb52124-2,0cb52124-0", {
+        i: common_vendor.sr(timerPopup, "0cb52124-2,0cb52124-0", {
           "k": "timerPopup"
         }),
-        i: common_vendor.p({
+        j: common_vendor.p({
           type: "top",
           ["background-color"]: "#fff",
           ["border-radius"]: "0 0 10px 10px"
         }),
-        j: common_vendor.sr(popup, "0cb52124-0", {
+        k: common_vendor.sr(popup, "0cb52124-0", {
           "k": "popup"
         }),
-        k: common_vendor.p({
+        l: common_vendor.p({
           type: "bottom",
           ["background-color"]: "#fff",
           ["border-radius"]: "10px 10px 0 0"
