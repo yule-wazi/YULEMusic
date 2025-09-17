@@ -1,54 +1,56 @@
 <template>
-	<uni-popup ref="popup" type="bottom" background-color="#fff" border-radius="10px 10px 0 0">
-		<view class="order">
-			<button class="orderButton" @click="orderChange">
-				<image :src="`/static/list_${playerStore.currentOrderName}.png`" />
-				<text class="text">{{orderName}}</text>
-			</button>
-			<button class="timer" @click='timerPopup.open()'>
-				<image src="/static/list_countdown.png" mode=""></image>
-				<text class="text">定时关闭</text>
-			</button>
-		</view>
-		<view class="songList">
-			<template v-for="(item, index) in playerStore.songList">
-				<view class="item" 
-					:class="{active: index === playerStore.songIndex}" 
-				>
-					<view class="content" @click="changeSong(index)">
-						<text class="songName">{{item.name}}</text>
-						<text class="singer" 
-							:class="{active: index === playerStore.songIndex}"
-						>
-							· {{item.ar[0].name}}
-						</text>
-					</view>
-					<view class="destroy" @click="popItem(index)">
-						<uni-icons type="closeempty" size="35rpx" color="#aaa"></uni-icons>
-					</view>
-				</view>
-			</template>
-		</view>
-		<uni-popup ref="timerPopup" class="timerPopup" type="top" background-color="#fff" border-radius="0 0 10px 10px">
-			<view class="title">定时关闭</view>
-			<view class="timerSelector">
-				<template v-for="(item, index) in timerList">
-					<view class="timerItem" @click="timerClick(index)">
-						<view class="timerContent">
-							<text class="text">{{item.label}}</text>
-							<view 
-								v-if="playerStore.timerActive === index && index" 
-								class="countdown"
+	<view class="musicPopup">
+		<uni-popup ref="popup" type="bottom" background-color="#fff" border-radius="10px 10px 0 0">
+			<view class="order">
+				<button class="orderButton" @click="orderChange">
+					<image :src="`/static/list_${playerStore.currentOrderName}.png`" />
+					<text class="text">{{orderName}}</text>
+				</button>
+				<button class="timer" @click='timerPopup.open()'>
+					<image src="/static/list_countdown.png" mode=""></image>
+					<text class="text">定时关闭</text>
+				</button>
+			</view>
+			<view class="songList">
+				<template v-for="(item, index) in playerStore.songList">
+					<view class="item" 
+						:class="{active: index === playerStore.songIndex}" 
+					>
+						<view class="content" @click="changeSong(index)">
+							<text class="songName">{{item.name}}</text>
+							<text class="singer" 
+								:class="{active: index === playerStore.songIndex}"
 							>
-								{{formatPlayTime(timerDuration)}}
-							</view>
+								· {{item.ar[0].name}}
+							</text>
 						</view>
-						<image v-if="index === playerStore.timerActive" class="timerActive" src="/static/check_item.png" />
+						<view class="destroy" @click="popItem(index)">
+							<uni-icons type="closeempty" size="35rpx" color="#aaa"></uni-icons>
+						</view>
 					</view>
 				</template>
 			</view>
+			<uni-popup ref="timerPopup" class="timerPopup" type="top" background-color="#fff" border-radius="0 0 10px 10px">
+				<view class="title">定时关闭</view>
+				<view class="timerSelector">
+					<template v-for="(item, index) in timerList">
+						<view class="timerItem" @click="timerClick(index)">
+							<view class="timerContent">
+								<text class="text">{{item.label}}</text>
+								<view 
+									v-if="playerStore.timerActive === index && index" 
+									class="countdown"
+								>
+									{{formatPlayTime(timerDuration)}}
+								</view>
+							</view>
+							<image v-if="index === playerStore.timerActive" class="timerActive" src="/static/check_item.png" />
+						</view>
+					</template>
+				</view>
+			</uni-popup>
 		</uni-popup>
-	</uni-popup>
+	</view>
 </template>
 
 <script setup>
@@ -149,103 +151,103 @@ const setTimer = () => {
 </script>
 
 <style lang="scss">
-.order {
-	height: 100rpx;
-	display: flex;
-	justify-content: space-between;
-	padding: 20rpx;
-	box-shadow: 20rpx 0 20rpx #aaa;
-	.orderButton, .timer {
+.musicPopup {
+	.order {
+		height: 100rpx;
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 260rpx;
-		height: 80rpx;
-		border-radius: 40rpx;
-		&::after {
-			border: none;
-		}
-		background-color: #F6F6F6;
-		margin: 20rpx;
-		image {
-			width: 40rpx;
-			height:40rpx;
-		}
-		.text {
-			font-size: 32rpx;
-		}
-	}
-}
-.songList {
-	height: 900rpx;
-	overflow: scroll;
-	&::-webkit-scrollbar {
-		display: none;
-	}
-	display: flex;	
-	flex-direction: column;
-	.item {
-		display: flex;
-		padding: 30rpx 30rpx;
 		justify-content: space-between;
-		.content {
-			width: 90%;
-			display: -webkit-box;
-			-webkit-line-clamp: 1;
-			-webkit-box-orient: vertical;
-			overflow: hidden;
-			.songName {
-				font-size: 35rpx;
-			}
-			.singer {
-				font-size: 25rpx;
-				color: #666;
-			}
-		}
-		.destroy {
-			width: 10%;
-			text-align: center;
-		}
-	}
-	.active {
-		background-color: #F6F6F6;
-		color: #26CE8A !important;
-	}
-}
-.timerPopup {
-	.title {
-		font-size: 40rpx;
-		text-align: center;
-		font-weight: 400;
 		padding: 20rpx;
 		box-shadow: 20rpx 0 20rpx #aaa;
-	}
-	.timerSelector {
-		.timerItem {
+		.orderButton, .timer {
 			display: flex;
-			justify-content: space-between;
 			align-items: center;
-			padding: 20rpx 30rpx;
-			border-top: 1rpx solid rgba(155,155,155,0.5);
-			.timerContent {
-				display: flex;
-				align-items: center;
-				.text {
+			justify-content: center;
+			width: 260rpx;
+			height: 80rpx;
+			border-radius: 40rpx;
+			&::after {
+				border: none;
+			}
+			background-color: #F6F6F6;
+			margin: 20rpx;
+			image {
+				width: 40rpx;
+				height:40rpx;
+			}
+			.text {
+				font-size: 32rpx;
+			}
+		}
+	}
+	.songList {
+		height: 900rpx;
+		overflow: scroll;
+		&::-webkit-scrollbar {
+			display: none;
+		}
+		display: flex;	
+		flex-direction: column;
+		.item {
+			display: flex;
+			padding: 30rpx 30rpx;
+			justify-content: space-between;
+			.content {
+				width: 90%;
+				display: -webkit-box;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				.songName {
 					font-size: 35rpx;
 				}
-				.countdown {
-					margin-left: 40rpx;
+				.singer {
 					font-size: 25rpx;
 					color: #666;
 				}
 			}
-			.timerActive {
-				height: 40rpx;
-				width: 40rpx;
+			.destroy {
+				width: 10%;
+				text-align: center;
+			}
+		}
+		.active {
+			background-color: #F6F6F6;
+			color: #26CE8A !important;
+		}
+	}
+	.timerPopup {
+		.title {
+			font-size: 40rpx;
+			text-align: center;
+			font-weight: 400;
+			padding: 20rpx;
+			box-shadow: 20rpx 0 20rpx #aaa;
+		}
+		.timerSelector {
+			.timerItem {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 20rpx 30rpx;
+				border-top: 1rpx solid rgba(155,155,155,0.5);
+				.timerContent {
+					display: flex;
+					align-items: center;
+					.text {
+						font-size: 35rpx;
+					}
+					.countdown {
+						margin-left: 40rpx;
+						font-size: 25rpx;
+						color: #666;
+					}
+				}
+				.timerActive {
+					height: 40rpx;
+					width: 40rpx;
+				}
 			}
 		}
 	}
 }
-
-
 </style>

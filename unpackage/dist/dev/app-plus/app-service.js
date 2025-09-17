@@ -4427,7 +4427,7 @@ This will fail in production if not fixed.`);
       const setTimer = () => {
         timerDuration.value -= 1e3;
         if (!timerDuration.value) {
-          formatAppLog("log", "at components/musicPopup/musicPopup.vue:135", "时间到了");
+          formatAppLog("log", "at components/musicPopup/musicPopup.vue:137", "时间到了");
           audioContext2.pause();
           playerStore.isPlaying = false;
           clearInterval(timer);
@@ -4435,7 +4435,7 @@ This will fail in production if not fixed.`);
           uni.setKeepScreenOn({
             keepScreenOn: false,
             success: () => {
-              formatAppLog("log", "at components/musicPopup/musicPopup.vue:143", "关闭常亮");
+              formatAppLog("log", "at components/musicPopup/musicPopup.vue:145", "关闭常亮");
             }
           });
         }
@@ -4458,159 +4458,161 @@ This will fail in production if not fixed.`);
   function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$6);
     const _component_uni_popup = resolveEasycom(vue.resolveDynamicComponent("uni-popup"), __easycom_1$4);
-    return vue.openBlock(), vue.createBlock(
-      _component_uni_popup,
-      {
-        ref: "popup",
-        type: "bottom",
-        "background-color": "#fff",
-        "border-radius": "10px 10px 0 0"
-      },
-      {
-        default: vue.withCtx(() => [
-          vue.createElementVNode("view", { class: "order" }, [
-            vue.createElementVNode("button", {
-              class: "orderButton",
-              onClick: $setup.orderChange
-            }, [
-              vue.createElementVNode("image", {
-                src: `/static/list_${$setup.playerStore.currentOrderName}.png`
-              }, null, 8, ["src"]),
-              vue.createElementVNode(
-                "text",
-                { class: "text" },
-                vue.toDisplayString($setup.orderName),
-                1
-                /* TEXT */
-              )
-            ]),
-            vue.createElementVNode("button", {
-              class: "timer",
-              onClick: _cache[0] || (_cache[0] = ($event) => $setup.timerPopup.open())
-            }, [
-              vue.createElementVNode("image", {
-                src: _imports_0$3,
-                mode: ""
-              }),
-              vue.createElementVNode("text", { class: "text" }, "定时关闭")
-            ])
-          ]),
-          vue.createElementVNode("view", { class: "songList" }, [
-            (vue.openBlock(true), vue.createElementBlock(
-              vue.Fragment,
-              null,
-              vue.renderList($setup.playerStore.songList, (item, index) => {
-                return vue.openBlock(), vue.createElementBlock(
-                  "view",
-                  {
-                    class: vue.normalizeClass(["item", { active: index === $setup.playerStore.songIndex }])
-                  },
-                  [
-                    vue.createElementVNode("view", {
-                      class: "content",
-                      onClick: ($event) => $setup.changeSong(index)
-                    }, [
-                      vue.createElementVNode(
-                        "text",
-                        { class: "songName" },
-                        vue.toDisplayString(item.name),
-                        1
-                        /* TEXT */
-                      ),
-                      vue.createElementVNode(
-                        "text",
-                        {
-                          class: vue.normalizeClass(["singer", { active: index === $setup.playerStore.songIndex }])
-                        },
-                        " · " + vue.toDisplayString(item.ar[0].name),
-                        3
-                        /* TEXT, CLASS */
-                      )
-                    ], 8, ["onClick"]),
-                    vue.createElementVNode("view", {
-                      class: "destroy",
-                      onClick: ($event) => $setup.popItem(index)
-                    }, [
-                      vue.createVNode(_component_uni_icons, {
-                        type: "closeempty",
-                        size: "35rpx",
-                        color: "#aaa"
-                      })
-                    ], 8, ["onClick"])
-                  ],
-                  2
-                  /* CLASS */
-                );
-              }),
-              256
-              /* UNKEYED_FRAGMENT */
-            ))
-          ]),
-          vue.createVNode(
-            _component_uni_popup,
-            {
-              ref: "timerPopup",
-              class: "timerPopup",
-              type: "top",
-              "background-color": "#fff",
-              "border-radius": "0 0 10px 10px"
-            },
-            {
-              default: vue.withCtx(() => [
-                vue.createElementVNode("view", { class: "title" }, "定时关闭"),
-                vue.createElementVNode("view", { class: "timerSelector" }, [
-                  (vue.openBlock(), vue.createElementBlock(
-                    vue.Fragment,
-                    null,
-                    vue.renderList($setup.timerList, (item, index) => {
-                      return vue.createElementVNode("view", {
-                        class: "timerItem",
-                        onClick: ($event) => $setup.timerClick(index)
-                      }, [
-                        vue.createElementVNode("view", { class: "timerContent" }, [
-                          vue.createElementVNode(
-                            "text",
-                            { class: "text" },
-                            vue.toDisplayString(item.label),
-                            1
-                            /* TEXT */
-                          ),
-                          $setup.playerStore.timerActive === index && index ? (vue.openBlock(), vue.createElementBlock(
-                            "view",
-                            {
-                              key: 0,
-                              class: "countdown"
-                            },
-                            vue.toDisplayString($setup.formatPlayTime($setup.timerDuration)),
-                            1
-                            /* TEXT */
-                          )) : vue.createCommentVNode("v-if", true)
-                        ]),
-                        index === $setup.playerStore.timerActive ? (vue.openBlock(), vue.createElementBlock("image", {
-                          key: 0,
-                          class: "timerActive",
-                          src: _imports_1$1
-                        })) : vue.createCommentVNode("v-if", true)
-                      ], 8, ["onClick"]);
-                    }),
-                    64
-                    /* STABLE_FRAGMENT */
-                  ))
-                ])
+    return vue.openBlock(), vue.createElementBlock("view", { class: "musicPopup" }, [
+      vue.createVNode(
+        _component_uni_popup,
+        {
+          ref: "popup",
+          type: "bottom",
+          "background-color": "#fff",
+          "border-radius": "10px 10px 0 0"
+        },
+        {
+          default: vue.withCtx(() => [
+            vue.createElementVNode("view", { class: "order" }, [
+              vue.createElementVNode("button", {
+                class: "orderButton",
+                onClick: $setup.orderChange
+              }, [
+                vue.createElementVNode("image", {
+                  src: `/static/list_${$setup.playerStore.currentOrderName}.png`
+                }, null, 8, ["src"]),
+                vue.createElementVNode(
+                  "text",
+                  { class: "text" },
+                  vue.toDisplayString($setup.orderName),
+                  1
+                  /* TEXT */
+                )
               ]),
-              _: 1
-              /* STABLE */
-            },
-            512
-            /* NEED_PATCH */
-          )
-        ]),
-        _: 1
-        /* STABLE */
-      },
-      512
-      /* NEED_PATCH */
-    );
+              vue.createElementVNode("button", {
+                class: "timer",
+                onClick: _cache[0] || (_cache[0] = ($event) => $setup.timerPopup.open())
+              }, [
+                vue.createElementVNode("image", {
+                  src: _imports_0$3,
+                  mode: ""
+                }),
+                vue.createElementVNode("text", { class: "text" }, "定时关闭")
+              ])
+            ]),
+            vue.createElementVNode("view", { class: "songList" }, [
+              (vue.openBlock(true), vue.createElementBlock(
+                vue.Fragment,
+                null,
+                vue.renderList($setup.playerStore.songList, (item, index) => {
+                  return vue.openBlock(), vue.createElementBlock(
+                    "view",
+                    {
+                      class: vue.normalizeClass(["item", { active: index === $setup.playerStore.songIndex }])
+                    },
+                    [
+                      vue.createElementVNode("view", {
+                        class: "content",
+                        onClick: ($event) => $setup.changeSong(index)
+                      }, [
+                        vue.createElementVNode(
+                          "text",
+                          { class: "songName" },
+                          vue.toDisplayString(item.name),
+                          1
+                          /* TEXT */
+                        ),
+                        vue.createElementVNode(
+                          "text",
+                          {
+                            class: vue.normalizeClass(["singer", { active: index === $setup.playerStore.songIndex }])
+                          },
+                          " · " + vue.toDisplayString(item.ar[0].name),
+                          3
+                          /* TEXT, CLASS */
+                        )
+                      ], 8, ["onClick"]),
+                      vue.createElementVNode("view", {
+                        class: "destroy",
+                        onClick: ($event) => $setup.popItem(index)
+                      }, [
+                        vue.createVNode(_component_uni_icons, {
+                          type: "closeempty",
+                          size: "35rpx",
+                          color: "#aaa"
+                        })
+                      ], 8, ["onClick"])
+                    ],
+                    2
+                    /* CLASS */
+                  );
+                }),
+                256
+                /* UNKEYED_FRAGMENT */
+              ))
+            ]),
+            vue.createVNode(
+              _component_uni_popup,
+              {
+                ref: "timerPopup",
+                class: "timerPopup",
+                type: "top",
+                "background-color": "#fff",
+                "border-radius": "0 0 10px 10px"
+              },
+              {
+                default: vue.withCtx(() => [
+                  vue.createElementVNode("view", { class: "title" }, "定时关闭"),
+                  vue.createElementVNode("view", { class: "timerSelector" }, [
+                    (vue.openBlock(), vue.createElementBlock(
+                      vue.Fragment,
+                      null,
+                      vue.renderList($setup.timerList, (item, index) => {
+                        return vue.createElementVNode("view", {
+                          class: "timerItem",
+                          onClick: ($event) => $setup.timerClick(index)
+                        }, [
+                          vue.createElementVNode("view", { class: "timerContent" }, [
+                            vue.createElementVNode(
+                              "text",
+                              { class: "text" },
+                              vue.toDisplayString(item.label),
+                              1
+                              /* TEXT */
+                            ),
+                            $setup.playerStore.timerActive === index && index ? (vue.openBlock(), vue.createElementBlock(
+                              "view",
+                              {
+                                key: 0,
+                                class: "countdown"
+                              },
+                              vue.toDisplayString($setup.formatPlayTime($setup.timerDuration)),
+                              1
+                              /* TEXT */
+                            )) : vue.createCommentVNode("v-if", true)
+                          ]),
+                          index === $setup.playerStore.timerActive ? (vue.openBlock(), vue.createElementBlock("image", {
+                            key: 0,
+                            class: "timerActive",
+                            src: _imports_1$1
+                          })) : vue.createCommentVNode("v-if", true)
+                        ], 8, ["onClick"]);
+                      }),
+                      64
+                      /* STABLE_FRAGMENT */
+                    ))
+                  ])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              512
+              /* NEED_PATCH */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        },
+        512
+        /* NEED_PATCH */
+      )
+    ]);
   }
   const __easycom_1$3 = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$i], ["__scopeId", "data-v-6521bd4c"], ["__file", "D:/uniApp学习/YULEMusic/components/musicPopup/musicPopup.vue"]]);
   const _imports_0$2 = "/static/play_musicList.png";

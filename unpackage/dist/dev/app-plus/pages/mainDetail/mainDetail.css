@@ -872,14 +872,14 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.order[data-v-6521bd4c] {
+.musicPopup .order[data-v-6521bd4c] {
   height: 3.125rem;
   display: flex;
   justify-content: space-between;
   padding: 0.625rem;
   box-shadow: 0.625rem 0 0.625rem #aaa;
 }
-.order .orderButton[data-v-6521bd4c], .order .timer[data-v-6521bd4c] {
+.musicPopup .order .orderButton[data-v-6521bd4c], .musicPopup .order .timer[data-v-6521bd4c] {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -889,79 +889,79 @@
   background-color: #F6F6F6;
   margin: 0.625rem;
 }
-.order .orderButton[data-v-6521bd4c]::after, .order .timer[data-v-6521bd4c]::after {
+.musicPopup .order .orderButton[data-v-6521bd4c]::after, .musicPopup .order .timer[data-v-6521bd4c]::after {
   border: none;
 }
-.order .orderButton uni-image[data-v-6521bd4c], .order .timer uni-image[data-v-6521bd4c] {
+.musicPopup .order .orderButton uni-image[data-v-6521bd4c], .musicPopup .order .timer uni-image[data-v-6521bd4c] {
   width: 1.25rem;
   height: 1.25rem;
 }
-.order .orderButton .text[data-v-6521bd4c], .order .timer .text[data-v-6521bd4c] {
+.musicPopup .order .orderButton .text[data-v-6521bd4c], .musicPopup .order .timer .text[data-v-6521bd4c] {
   font-size: 1rem;
 }
-.songList[data-v-6521bd4c] {
+.musicPopup .songList[data-v-6521bd4c] {
   height: 28.125rem;
   overflow: scroll;
   display: flex;
   flex-direction: column;
 }
-.songList[data-v-6521bd4c]::-webkit-scrollbar {
+.musicPopup .songList[data-v-6521bd4c]::-webkit-scrollbar {
   display: none;
 }
-.songList .item[data-v-6521bd4c] {
+.musicPopup .songList .item[data-v-6521bd4c] {
   display: flex;
   padding: 0.9375rem 0.9375rem;
   justify-content: space-between;
 }
-.songList .item .content[data-v-6521bd4c] {
+.musicPopup .songList .item .content[data-v-6521bd4c] {
   width: 90%;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.songList .item .content .songName[data-v-6521bd4c] {
+.musicPopup .songList .item .content .songName[data-v-6521bd4c] {
   font-size: 1.09375rem;
 }
-.songList .item .content .singer[data-v-6521bd4c] {
+.musicPopup .songList .item .content .singer[data-v-6521bd4c] {
   font-size: 0.78125rem;
   color: #666;
 }
-.songList .item .destroy[data-v-6521bd4c] {
+.musicPopup .songList .item .destroy[data-v-6521bd4c] {
   width: 10%;
   text-align: center;
 }
-.songList .active[data-v-6521bd4c] {
+.musicPopup .songList .active[data-v-6521bd4c] {
   background-color: #F6F6F6;
   color: #26CE8A !important;
 }
-.timerPopup .title[data-v-6521bd4c] {
+.musicPopup .timerPopup .title[data-v-6521bd4c] {
   font-size: 1.25rem;
   text-align: center;
   font-weight: 400;
   padding: 0.625rem;
   box-shadow: 0.625rem 0 0.625rem #aaa;
 }
-.timerPopup .timerSelector .timerItem[data-v-6521bd4c] {
+.musicPopup .timerPopup .timerSelector .timerItem[data-v-6521bd4c] {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.625rem 0.9375rem;
   border-top: 0.03125rem solid rgba(155, 155, 155, 0.5);
 }
-.timerPopup .timerSelector .timerItem .timerContent[data-v-6521bd4c] {
+.musicPopup .timerPopup .timerSelector .timerItem .timerContent[data-v-6521bd4c] {
   display: flex;
   align-items: center;
 }
-.timerPopup .timerSelector .timerItem .timerContent .text[data-v-6521bd4c] {
+.musicPopup .timerPopup .timerSelector .timerItem .timerContent .text[data-v-6521bd4c] {
   font-size: 1.09375rem;
 }
-.timerPopup .timerSelector .timerItem .timerContent .countdown[data-v-6521bd4c] {
+.musicPopup .timerPopup .timerSelector .timerItem .timerContent .countdown[data-v-6521bd4c] {
   margin-left: 1.25rem;
   font-size: 0.78125rem;
   color: #666;
 }
-.timerPopup .timerSelector .timerItem .timerActive[data-v-6521bd4c] {
+.musicPopup .timerPopup .timerSelector .timerItem .timerActive[data-v-6521bd4c] {
   height: 1.25rem;
   width: 1.25rem;
 }
