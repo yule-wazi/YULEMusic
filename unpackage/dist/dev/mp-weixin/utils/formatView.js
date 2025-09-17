@@ -24,6 +24,8 @@ function formatLyrics(lyrics) {
     if (!lyric)
       continue;
     const result = timeReg.exec(lyric);
+    if (!result)
+      return [];
     const min = result[1] * 60 * 1e3;
     const sec = result[2] * 1e3;
     const mil = result[3].length > 2 ? result[3] * 1 : result[3] * 10;

@@ -26,6 +26,7 @@ const usePlayer = defineStore('player', {
 			isPlaying: true,
 			isShow: false,
 			currentOrder: 0,
+			timerActive: 0,
 			currentOrderName: "order",
 		}
 	},
@@ -51,9 +52,9 @@ const usePlayer = defineStore('player', {
 		},
 		//获取歌曲&播放
 		async playSong(id) {
+			this.isPlaying = true
 			const proxyRes = await fetchSongProxyUrl(id)
 			try {
-				console.log(proxyRes);
 				if(proxyRes.data.code !== 200) {
 					throw new Error(`HTTP error! status`);
 					return

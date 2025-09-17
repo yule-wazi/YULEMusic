@@ -8,6 +8,8 @@ const useMusic = common_vendor.defineStore("music", {
       recommendSongs: [],
       hotMenu: [],
       menuInfo: {},
+      singerId: 0,
+      singerDetail: {},
       recommendMenu: [],
       rankingMenuList: [],
       rankingSongs: [],
@@ -54,11 +56,13 @@ const useMusic = common_vendor.defineStore("music", {
         newRanking: 3779629,
         uperRanking: 19723756
       };
+      let promiseList = [];
       for (const key in rankingMap) {
         const id = rankingMap[key];
-        const res = await service_module_mainMusic.fetchSongRecommend(id);
-        this.rankingMenuList.push(res.data.playlist);
+        promiseList.push(service_module_mainMusic.fetchSongRecommend(id));
       }
+      const res = await Promise.all(promiseList);
+      this.rankingMenuList = res.map((res2) => res2.data.playlist);
     },
     getRankingSongs(id) {
       return new Promise(async (resolve, resject) => {

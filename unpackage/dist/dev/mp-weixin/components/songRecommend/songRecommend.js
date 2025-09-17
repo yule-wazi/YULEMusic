@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+require("../../store/module/mainMusic.js");
 const store_module_player = require("../../store/module/player.js");
 if (!Array) {
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
@@ -21,7 +22,7 @@ const _sfc_main = {
     const props = __props;
     const playerStore = store_module_player.usePlayer();
     const songClick = (item, index) => {
-      common_vendor.index.__f__("log", "at components/songRecommend/songRecommend.vue:32", "进入歌曲");
+      common_vendor.index.__f__("log", "at components/songRecommend/songRecommend.vue:33", "进入歌曲");
       playerStore.songList = props.songs;
       playerStore.songIndex = index;
       common_vendor.index.navigateTo({

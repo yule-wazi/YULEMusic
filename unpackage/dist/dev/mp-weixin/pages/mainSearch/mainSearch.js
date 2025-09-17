@@ -55,7 +55,7 @@ const _sfc_main = {
       }
       const res = await service_module_search.fetchSearchSuggest(value);
       const searchSuggest = res.data.result.songs;
-      data.searchSuggest = searchSuggest;
+      data.searchSuggest = searchSuggest ?? [];
     };
     const searchSuggestClick = (value) => {
       data.keyword = value;

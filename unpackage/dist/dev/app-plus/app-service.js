@@ -3228,6 +3228,7 @@ This will fail in production if not fixed.`);
         isPlaying: true,
         isShow: false,
         currentOrder: 0,
+        timerActive: 0,
         currentOrderName: "order"
       };
     },
@@ -3238,7 +3239,7 @@ This will fail in production if not fixed.`);
             let res = await fetchSongDetail(id);
             this.songDetail = res.data.songs[0];
             this.durationTime = res.data.songs[0].dt;
-            formatAppLog("log", "at store/module/player.js:40", res.data);
+            formatAppLog("log", "at store/module/player.js:41", res.data);
             this.singerId = res.data.songs[0].ar[0].id;
             res = await fetchSongLyric(id);
             this.lyrics = res.data.lrc.lyric;
@@ -3251,9 +3252,9 @@ This will fail in production if not fixed.`);
       },
       //获取歌曲&播放
       async playSong(id) {
+        this.isPlaying = true;
         const proxyRes = await fetchSongProxyUrl(id);
         try {
-          formatAppLog("log", "at store/module/player.js:56", proxyRes);
           if (proxyRes.data.code !== 200) {
             throw new Error(`HTTP error! status`);
             return;
@@ -3261,8 +3262,8 @@ This will fail in production if not fixed.`);
           const proxyUrl = proxyRes.data.data.url;
           audioContext.src = proxyUrl;
         } catch (error) {
-          formatAppLog("log", "at store/module/player.js:64", "报错", error);
-          formatAppLog("log", "at store/module/player.js:65", "启动非代理url");
+          formatAppLog("log", "at store/module/player.js:65", "报错", error);
+          formatAppLog("log", "at store/module/player.js:66", "启动非代理url");
           audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
         }
         await this.getSongs(id);
@@ -4352,11 +4353,14 @@ This will fail in production if not fixed.`);
     )) : vue.createCommentVNode("v-if", true);
   }
   const __easycom_1$4 = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$j], ["__scopeId", "data-v-4dd3c44b"], ["__file", "D:/uniApp学习/YULEMusic/uni_modules/uni-popup/components/uni-popup/uni-popup.vue"]]);
+  const _imports_0$3 = "/static/check_item.png";
   const _sfc_main$j = {
     __name: "musicPopup",
     setup(__props, { expose: __expose }) {
+      const audioContext2 = audioInstance();
       const playerStore = usePlayer();
       const popup = vue.ref();
+      const timerPopup = vue.ref();
       const openList = () => {
         popup.value.open();
       };
@@ -4395,11 +4399,56 @@ This will fail in production if not fixed.`);
           changeSong(index, true);
         }
       };
+      const timerList = [
+        { label: "不开启", value: 0 },
+        { label: "3秒钟", value: 3e3 },
+        { label: "15分钟", value: 9e5 },
+        { label: "30分钟", value: 18e5 },
+        { label: "60分钟", value: 36e5 },
+        { label: "90分钟", value: 54e5 }
+      ];
+      const timerDuration = vue.ref(0);
       __expose({
         openList
       });
-      const __returned__ = { playerStore, popup, openList, orderName, orderChange, changeSong, popItem, computed: vue.computed, ref: vue.ref, get usePlayer() {
+      let timer = null;
+      const timerClick = (index) => {
+        playerStore.timerActive = index;
+        timerPopup.value.close();
+        timerDuration.value = timerList[index].value;
+        if (timer) {
+          clearInterval(timer);
+        }
+        if (index) {
+          timer = setInterval(setTimer, 1e3);
+        }
+      };
+      const setTimer = () => {
+        timerDuration.value -= 1e3;
+        if (!timerDuration.value) {
+          formatAppLog("log", "at components/musicPopup/musicPopup.vue:134", "时间到了");
+          audioContext2.pause();
+          playerStore.isPlaying = false;
+          clearInterval(timer);
+          playerStore.timerActive = 0;
+          uni.setKeepScreenOn({
+            keepScreenOn: false,
+            success: () => {
+              formatAppLog("log", "at components/musicPopup/musicPopup.vue:142", "关闭常亮");
+            }
+          });
+        }
+      };
+      const __returned__ = { audioContext: audioContext2, playerStore, popup, timerPopup, openList, orderName, orderChange, changeSong, popItem, timerList, timerDuration, get timer() {
+        return timer;
+      }, set timer(v) {
+        timer = v;
+      }, timerClick, setTimer, computed: vue.computed, ref: vue.ref, get usePlayer() {
         return usePlayer;
+      }, get formatPlayTime() {
+        return formatPlayTime;
+      }, get audioInstance() {
+        return audioInstance;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
@@ -4433,7 +4482,11 @@ This will fail in production if not fixed.`);
                 1
                 /* TEXT */
               )
-            ])
+            ]),
+            vue.createElementVNode("button", {
+              class: "timer",
+              onClick: _cache[0] || (_cache[0] = ($event) => $setup.timerPopup.open())
+            }, " 定时器 ")
           ]),
           vue.createElementVNode("view", { class: "songList" }, [
             (vue.openBlock(true), vue.createElementBlock(
@@ -4485,7 +4538,65 @@ This will fail in production if not fixed.`);
               256
               /* UNKEYED_FRAGMENT */
             ))
-          ])
+          ]),
+          vue.createVNode(
+            _component_uni_popup,
+            {
+              ref: "timerPopup",
+              class: "timerPopup",
+              type: "top",
+              "background-color": "#fff",
+              "border-radius": "0 0 10px 10px"
+            },
+            {
+              default: vue.withCtx(() => [
+                vue.createElementVNode("view", { class: "title" }, "定时关闭"),
+                vue.createElementVNode("view", { class: "timerSelector" }, [
+                  (vue.openBlock(), vue.createElementBlock(
+                    vue.Fragment,
+                    null,
+                    vue.renderList($setup.timerList, (item, index) => {
+                      return vue.createElementVNode("view", {
+                        class: "timerItem",
+                        onClick: ($event) => $setup.timerClick(index)
+                      }, [
+                        vue.createElementVNode("view", { class: "timerContent" }, [
+                          vue.createElementVNode(
+                            "text",
+                            { class: "text" },
+                            vue.toDisplayString(item.label),
+                            1
+                            /* TEXT */
+                          ),
+                          $setup.playerStore.timerActive === index && index ? (vue.openBlock(), vue.createElementBlock(
+                            "view",
+                            {
+                              key: 0,
+                              class: "countdown"
+                            },
+                            vue.toDisplayString($setup.formatPlayTime($setup.timerDuration)),
+                            1
+                            /* TEXT */
+                          )) : vue.createCommentVNode("v-if", true)
+                        ]),
+                        index === $setup.playerStore.timerActive ? (vue.openBlock(), vue.createElementBlock("image", {
+                          key: 0,
+                          class: "timerActive",
+                          src: _imports_0$3
+                        })) : vue.createCommentVNode("v-if", true)
+                      ], 8, ["onClick"]);
+                    }),
+                    64
+                    /* STABLE_FRAGMENT */
+                  ))
+                ])
+              ]),
+              _: 1
+              /* STABLE */
+            },
+            512
+            /* NEED_PATCH */
+          )
         ]),
         _: 1
         /* STABLE */
@@ -4564,23 +4675,15 @@ This will fail in production if not fixed.`);
         vue.createElementVNode("image", {
           class: "pause",
           src: `/static/play_${$setup.playerStore.isPlaying ? "pause02" : "resume02"}.png`,
-          onClick: [
-            _cache[0] || (_cache[0] = vue.withModifiers(() => {
-            }, ["stop"])),
-            $setup.playClick
-          ]
+          onClick: $setup.playClick
         }, null, 8, ["src"]),
         vue.createElementVNode("image", {
           class: "list",
           src: _imports_0$2,
-          onClick: [
-            _cache[1] || (_cache[1] = vue.withModifiers(() => {
-            }, ["stop"])),
-            _cache[2] || (_cache[2] = ($event) => {
-              var _a;
-              return (_a = $setup.musicPopupRef) == null ? void 0 : _a.openList();
-            })
-          ]
+          onClick: _cache[0] || (_cache[0] = ($event) => {
+            var _a;
+            return (_a = $setup.musicPopupRef) == null ? void 0 : _a.openList();
+          })
         })
       ]),
       vue.createVNode(

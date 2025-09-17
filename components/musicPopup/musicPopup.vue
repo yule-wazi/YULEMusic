@@ -5,6 +5,9 @@
 				<image :src="`/static/list_${playerStore.currentOrderName}.png`" />
 				<text class="text">{{orderName}}</text>
 			</button>
+			<button class="timer" @click='timerPopup.open()'>
+				定时器
+			</button>
 		</view>
 		<view class="songList">
 			<template v-for="(item, index) in playerStore.songList">
@@ -25,15 +28,38 @@
 				</view>
 			</template>
 		</view>
+		<uni-popup ref="timerPopup" class="timerPopup" type="top" background-color="#fff" border-radius="0 0 10px 10px">
+			<view class="title">定时关闭</view>
+			<view class="timerSelector">
+				<template v-for="(item, index) in timerList">
+					<view class="timerItem" @click="timerClick(index)">
+						<view class="timerContent">
+							<text class="text">{{item.label}}</text>
+							<view 
+								v-if="playerStore.timerActive === index && index" 
+								class="countdown"
+							>
+								{{formatPlayTime(timerDuration)}}
+							</view>
+						</view>
+						<image v-if="index === playerStore.timerActive" class="timerActive" src="/static/check_item.png" />
+					</view>
+				</template>
+			</view>
+		</uni-popup>
 	</uni-popup>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue';
 import usePlayer from '../../store/module/player';
+import { formatPlayTime } from '../../utils/formatView';
+import { audioInstance } from '../../utils/audioInstance';
+
+const audioContext = audioInstance()
 const playerStore = usePlayer()
-// console.log(playerStore.songList);
 const popup = ref()
+const timerPopup = ref()
 const openList = () => {
 	popup.value.open()
 }
@@ -74,14 +100,57 @@ const popItem = (index) => {
 		changeSong(index, true)
 	}
 }
+// 定时选项
+const timerList = [
+	{label: '不开启', value: 0},
+	{label: '3秒钟', value: 3000},
+	{label: '15分钟', value: 900000},
+	{label: '30分钟', value: 1800000},
+	{label: '60分钟', value: 3600000},
+	{label: '90分钟', value: 5400000},
+]
+const timerDuration = ref(0)
 defineExpose({
 	openList
 })
+// 选择定时时间
+let timer = null
+const timerClick = (index) => {
+	playerStore.timerActive = index
+	timerPopup.value.close()
+	timerDuration.value = timerList[index].value
+	// 开启定时关闭
+	if(timer) {
+		clearInterval(timer)
+	}
+	if(index) {
+		timer = setInterval(setTimer, 1000)
+	}
+}
+// 设置定时器
+const setTimer = () => {
+	timerDuration.value -= 1000
+	if(!timerDuration.value) {
+		console.log('时间到了');
+		audioContext.pause()
+		playerStore.isPlaying = false
+		clearInterval(timer)
+		playerStore.timerActive = 0
+		uni.setKeepScreenOn({
+			keepScreenOn: false,
+			success: () => {
+				console.log('关闭常亮');
+			}
+		})
+	}
+	// console.log('timerDuration.value=', timerDuration.value);
+}
 </script>
 
 <style lang="scss">
 .order {
 	height: 100rpx;
+	display: flex;
 	.orderButton {
 		display: flex;
 		align-items: center;
@@ -139,4 +208,40 @@ defineExpose({
 		color: #26CE8A !important;
 	}
 }
+.timerPopup {
+	.title {
+		font-size: 40rpx;
+		text-align: center;
+		font-weight: 400;
+		padding: 20rpx;
+		box-shadow: 0rpx 10rpx 10rpx #999999;
+	}
+	.timerSelector {
+		.timerItem {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 20rpx 30rpx;
+			border-top: 1rpx solid rgba(155,155,155,0.5);
+			.timerContent {
+				display: flex;
+				align-items: center;
+				.text {
+					font-size: 35rpx;
+				}
+				.countdown {
+					margin-left: 40rpx;
+					font-size: 25rpx;
+					color: #666;
+				}
+			}
+			.timerActive {
+				height: 40rpx;
+				width: 40rpx;
+			}
+		}
+	}
+}
+
+
 </style>

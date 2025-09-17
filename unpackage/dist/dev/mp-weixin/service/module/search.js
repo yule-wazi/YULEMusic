@@ -15,7 +15,19 @@ function fetchSearchKeyword(keyword, offset) {
     url: `/cloudsearch?keywords=${keyword}&offset=${offset}`
   });
 }
+function fetchSearchSinger(id) {
+  return service_index.myRequest.get({
+    url: `/artist/detail?id=${id}`
+  });
+}
+function fetchSingerSongs(id) {
+  return service_index.myRequest.get({
+    url: `/artists?id=${id}`
+  });
+}
 exports.fetchSearchHotList = fetchSearchHotList;
 exports.fetchSearchKeyword = fetchSearchKeyword;
+exports.fetchSearchSinger = fetchSearchSinger;
 exports.fetchSearchSuggest = fetchSearchSuggest;
+exports.fetchSingerSongs = fetchSingerSongs;
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/service/module/search.js.map

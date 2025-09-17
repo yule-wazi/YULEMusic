@@ -8,10 +8,9 @@
 			<image
 				class="pause"
 				:src="`/static/play_${playerStore.isPlaying ? 'pause02' : 'resume02'}.png`"
-				@click.stop
 				@click="playClick"
 			/>
-			<image class="list" src="/static/play_musicList.png" @click.stop @click="musicPopupRef?.openList()" />
+			<image class="list" src="/static/play_musicList.png"  @click="musicPopupRef?.openList()" />
 		</view>
 		<musicPopup ref="musicPopupRef" />
 	</view>

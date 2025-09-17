@@ -2,6 +2,7 @@
   "navigationBarTitleText": "",
   "usingComponents": {
     "menu-header": "../../components/menuHeader/menuHeader",
+    "singer-info": "../../components/singerInfo/singerInfo",
     "song-item": "../../components/songItem/songItem",
     "player-bar": "../../components/playerBar/playerBar"
   }

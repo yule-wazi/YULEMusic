@@ -16,7 +16,7 @@ function fetchSongRecommend(id = 3778678) {
     }
   });
 }
-function fetchSongMenu(cat = "全部", limit = 6, offset = 0) {
+function fetchSongMenu(cat = "全部", limit = 10, offset = 0) {
   return service_index.myRequest.get({
     url: "/top/playlist",
     data: {

@@ -874,6 +874,7 @@
 /* 文章场景相关 */
 .order[data-v-6521bd4c] {
   height: 3.125rem;
+  display: flex;
 }
 .order .orderButton[data-v-6521bd4c] {
   display: flex;
@@ -930,6 +931,36 @@
 .songList .active[data-v-6521bd4c] {
   background-color: #F6F6F6;
   color: #26CE8A !important;
+}
+.timerPopup .title[data-v-6521bd4c] {
+  font-size: 1.25rem;
+  text-align: center;
+  font-weight: 400;
+  padding: 0.625rem;
+  box-shadow: 0 0.3125rem 0.3125rem #999999;
+}
+.timerPopup .timerSelector .timerItem[data-v-6521bd4c] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem 0.9375rem;
+  border-top: 0.03125rem solid rgba(155, 155, 155, 0.5);
+}
+.timerPopup .timerSelector .timerItem .timerContent[data-v-6521bd4c] {
+  display: flex;
+  align-items: center;
+}
+.timerPopup .timerSelector .timerItem .timerContent .text[data-v-6521bd4c] {
+  font-size: 1.09375rem;
+}
+.timerPopup .timerSelector .timerItem .timerContent .countdown[data-v-6521bd4c] {
+  margin-left: 1.25rem;
+  font-size: 0.78125rem;
+  color: #666;
+}
+.timerPopup .timerSelector .timerItem .timerActive[data-v-6521bd4c] {
+  height: 1.25rem;
+  width: 1.25rem;
 }
 /**
  * 这里是uni-app内置的常用样式变量

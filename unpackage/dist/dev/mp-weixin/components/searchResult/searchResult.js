@@ -26,7 +26,8 @@ const _sfc_main = {
           isMore: false
         }),
         b: common_vendor.p({
-          songsList: __props.songs
+          songsList: __props.songs,
+          isSearch: true
         })
       };
     };

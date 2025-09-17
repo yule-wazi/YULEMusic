@@ -1,1 +1,1 @@
-<view class="mainDetail"><menu-header wx:if="{{a}}" u-i="09165688-0" bind:__l="__l" u-p="{{b}}"/><song-item wx:if="{{c}}" u-i="09165688-1" bind:__l="__l" u-p="{{c}}"/><player-bar u-i="09165688-2" bind:__l="__l"/></view>
+<view class="mainDetail"><block wx:if="{{a}}"><menu-header wx:if="{{b}}" u-i="09165688-0" bind:__l="__l" u-p="{{b}}"/></block><block wx:elif="{{c}}"><singer-info wx:if="{{d}}" u-i="09165688-1" bind:__l="__l" u-p="{{d}}"/></block><song-item wx:if="{{e}}" u-i="09165688-2" bind:__l="__l" u-p="{{e}}"/><player-bar u-i="09165688-3" bind:__l="__l"/></view>
