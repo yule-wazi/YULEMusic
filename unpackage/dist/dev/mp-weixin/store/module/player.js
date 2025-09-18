@@ -20,6 +20,7 @@ const usePlayer = common_vendor.defineStore("player", {
       currentLyrics: "",
       currentTime: 0,
       durationTime: 0,
+      timerDuration: 0,
       sliderLength: 0,
       scrollToTop: 0,
       isSlide: false,
@@ -37,7 +38,7 @@ const usePlayer = common_vendor.defineStore("player", {
           let res = await service_module_plyaer.fetchSongDetail(id);
           this.songDetail = res.data.songs[0];
           this.durationTime = res.data.songs[0].dt;
-          common_vendor.index.__f__("log", "at store/module/player.js:41", res.data);
+          common_vendor.index.__f__("log", "at store/module/player.js:42", res.data);
           this.singerId = res.data.songs[0].ar[0].id;
           res = await service_module_plyaer.fetchSongLyric(id);
           this.lyrics = res.data.lrc.lyric;
@@ -60,8 +61,8 @@ const usePlayer = common_vendor.defineStore("player", {
         const proxyUrl = proxyRes.data.data.url;
         audioContext.src = proxyUrl;
       } catch (error) {
-        common_vendor.index.__f__("log", "at store/module/player.js:65", "报错", error);
-        common_vendor.index.__f__("log", "at store/module/player.js:66", "启动非代理url");
+        common_vendor.index.__f__("log", "at store/module/player.js:66", "报错", error);
+        common_vendor.index.__f__("log", "at store/module/player.js:67", "启动非代理url");
         audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
       }
       await this.getSongs(id);

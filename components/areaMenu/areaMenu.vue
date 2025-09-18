@@ -2,7 +2,7 @@
 	<view class="hotSongMenu">
 		<areaHeader :title="title" @moreClkEmit="moreMenu" />
 		<view class="menuList">
-			<scroll-view class="scroll-view_H" scroll-x="true" :show-scrollbar="false">
+			<scroll-view class="scroll-view_H" :scroll-x="true" :show-scrollbar="false">
 				<template v-for="(item, index) in hotSongMenu" :key="index">
 					<view class="menuItem">
 						<songMenu :menu="item"/>

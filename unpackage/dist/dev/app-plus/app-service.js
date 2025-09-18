@@ -3199,14 +3199,14 @@ This will fail in production if not fixed.`);
       url: `/artists?id=${id}`
     });
   }
-  let audioContext$1 = null;
+  let audioContext$2 = null;
   function audioInstance() {
-    if (!audioContext$1) {
-      audioContext$1 = uni.createInnerAudioContext();
+    if (!audioContext$2) {
+      audioContext$2 = uni.createInnerAudioContext();
     }
-    return audioContext$1;
+    return audioContext$2;
   }
-  const audioContext = audioInstance();
+  const audioContext$1 = audioInstance();
   const usePlayer = defineStore("player", {
     state: () => {
       return {
@@ -3222,6 +3222,7 @@ This will fail in production if not fixed.`);
         currentLyrics: "",
         currentTime: 0,
         durationTime: 0,
+        timerDuration: 0,
         sliderLength: 0,
         scrollToTop: 0,
         isSlide: false,
@@ -3239,7 +3240,7 @@ This will fail in production if not fixed.`);
             let res = await fetchSongDetail(id);
             this.songDetail = res.data.songs[0];
             this.durationTime = res.data.songs[0].dt;
-            formatAppLog("log", "at store/module/player.js:41", res.data);
+            formatAppLog("log", "at store/module/player.js:42", res.data);
             this.singerId = res.data.songs[0].ar[0].id;
             res = await fetchSongLyric(id);
             this.lyrics = res.data.lrc.lyric;
@@ -3253,6 +3254,12 @@ This will fail in production if not fixed.`);
       //获取歌曲&播放
       async playSong(id) {
         this.isPlaying = true;
+        uni.setKeepScreenOn({
+          keepScreenOn: true,
+          success: () => {
+            formatAppLog("log", "at store/module/player.js:61", "跳转歌曲，保持常亮");
+          }
+        });
         const proxyRes = await fetchSongProxyUrl(id);
         try {
           if (proxyRes.data.code !== 200) {
@@ -3260,17 +3267,17 @@ This will fail in production if not fixed.`);
             return;
           }
           const proxyUrl = proxyRes.data.data.url;
-          audioContext.src = proxyUrl;
+          audioContext$1.src = proxyUrl;
         } catch (error) {
-          formatAppLog("log", "at store/module/player.js:65", "报错", error);
-          formatAppLog("log", "at store/module/player.js:66", "启动非代理url");
-          audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
+          formatAppLog("log", "at store/module/player.js:73", "报错", error);
+          formatAppLog("log", "at store/module/player.js:74", "启动非代理url");
+          audioContext$1.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
         }
         await this.getSongs(id);
         this.isShow = true;
-        audioContext.stop();
-        audioContext.autoplay = true;
-        audioContext.play();
+        audioContext$1.stop();
+        audioContext$1.autoplay = true;
+        audioContext$1.play();
       },
       getSearchSingerInfo() {
         return new Promise(async (resolve) => {
@@ -3454,7 +3461,7 @@ This will fail in production if not fixed.`);
       vue.createElementVNode("view", { class: "menuList" }, [
         vue.createElementVNode("scroll-view", {
           class: "scroll-view_H",
-          "scroll-x": "true",
+          "scroll-x": true,
           "show-scrollbar": false
         }, [
           (vue.openBlock(true), vue.createElementBlock(
@@ -4402,32 +4409,31 @@ This will fail in production if not fixed.`);
       };
       const timerList = [
         { label: "不开启", value: 0 },
-        { label: "3秒钟", value: 3e3 },
+        // {label: '3秒钟', value: 3000},
         { label: "15分钟", value: 9e5 },
         { label: "30分钟", value: 18e5 },
         { label: "60分钟", value: 36e5 },
         { label: "90分钟", value: 54e5 }
       ];
-      const timerDuration = vue.ref(0);
       __expose({
         openList
       });
       let timer = null;
       const timerClick = (index) => {
-        playerStore.timerActive = index;
-        timerPopup.value.close();
-        timerDuration.value = timerList[index].value;
         if (timer) {
           clearInterval(timer);
         }
+        playerStore.timerActive = index;
+        timerPopup.value.close();
+        playerStore.timerDuration = timerList[index].value;
         if (index) {
           timer = setInterval(setTimer, 1e3);
         }
       };
       const setTimer = () => {
-        timerDuration.value -= 1e3;
-        if (!timerDuration.value) {
-          formatAppLog("log", "at components/musicPopup/musicPopup.vue:137", "时间到了");
+        playerStore.timerDuration -= 1e3;
+        if (playerStore.timerDuration <= 0) {
+          formatAppLog("log", "at components/musicPopup/musicPopup.vue:136", "时间到了");
           audioContext2.pause();
           playerStore.isPlaying = false;
           clearInterval(timer);
@@ -4435,12 +4441,12 @@ This will fail in production if not fixed.`);
           uni.setKeepScreenOn({
             keepScreenOn: false,
             success: () => {
-              formatAppLog("log", "at components/musicPopup/musicPopup.vue:145", "关闭常亮");
+              formatAppLog("log", "at components/musicPopup/musicPopup.vue:144", "关闭常亮");
             }
           });
         }
       };
-      const __returned__ = { audioContext: audioContext2, playerStore, popup, timerPopup, openList, orderName, orderChange, changeSong, popItem, timerList, timerDuration, get timer() {
+      const __returned__ = { audioContext: audioContext2, playerStore, popup, timerPopup, openList, orderName, orderChange, changeSong, popItem, timerList, get timer() {
         return timer;
       }, set timer(v) {
         timer = v;
@@ -4582,7 +4588,7 @@ This will fail in production if not fixed.`);
                                 key: 0,
                                 class: "countdown"
                               },
-                              vue.toDisplayString($setup.formatPlayTime($setup.timerDuration)),
+                              vue.toDisplayString($setup.formatPlayTime($setup.playerStore.timerDuration)),
                               1
                               /* TEXT */
                             )) : vue.createCommentVNode("v-if", true)
@@ -4615,6 +4621,29 @@ This will fail in production if not fixed.`);
     ]);
   }
   const __easycom_1$3 = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$i], ["__scopeId", "data-v-6521bd4c"], ["__file", "D:/uniApp学习/YULEMusic/components/musicPopup/musicPopup.vue"]]);
+  const audioContext = audioInstance();
+  const playController = () => {
+    const playerStore = usePlayer();
+    if (playerStore.isPlaying) {
+      audioContext.pause();
+      playerStore.isPlaying = false;
+      uni.setKeepScreenOn({
+        keepScreenOn: false,
+        success: () => {
+          formatAppLog("log", "at utils/playController.js:15", "停止播放歌曲，关闭常亮");
+        }
+      });
+    } else {
+      audioContext.play();
+      playerStore.isPlaying = true;
+      uni.setKeepScreenOn({
+        keepScreenOn: true,
+        success: () => {
+          formatAppLog("log", "at utils/playController.js:24", "继续播放歌曲，保持常亮");
+        }
+      });
+    }
+  };
   const _imports_0$2 = "/static/play_musicList.png";
   const _sfc_main$i = {
     __name: "playerBar",
@@ -4623,25 +4652,18 @@ This will fail in production if not fixed.`);
       const audioContext2 = audioInstance();
       const playerStore = usePlayer();
       const album = vue.ref(null);
-      const playClick = () => {
-        if (playerStore.isPlaying) {
-          audioContext2.pause();
-          playerStore.isPlaying = false;
-        } else {
-          audioContext2.play();
-          playerStore.isPlaying = true;
-        }
-      };
       const songClick = () => {
         uni.navigateTo({
           url: `/pages/musicPlayer/musicPlayer`
         });
       };
       const musicPopupRef = vue.ref();
-      const __returned__ = { audioContext: audioContext2, playerStore, album, playClick, songClick, musicPopupRef, ref: vue.ref, get usePlayer() {
+      const __returned__ = { audioContext: audioContext2, playerStore, album, songClick, musicPopupRef, ref: vue.ref, get usePlayer() {
         return usePlayer;
       }, get audioInstance() {
         return audioInstance;
+      }, get playController() {
+        return playController;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
@@ -4683,12 +4705,12 @@ This will fail in production if not fixed.`);
         vue.createElementVNode("image", {
           class: "pause",
           src: `/static/play_${$setup.playerStore.isPlaying ? "pause02" : "resume02"}.png`,
-          onClick: $setup.playClick
+          onClick: _cache[0] || (_cache[0] = (...args) => $setup.playController && $setup.playController(...args))
         }, null, 8, ["src"]),
         vue.createElementVNode("image", {
           class: "list",
           src: _imports_0$2,
-          onClick: _cache[0] || (_cache[0] = ($event) => {
+          onClick: _cache[1] || (_cache[1] = ($event) => {
             var _a;
             return (_a = $setup.musicPopupRef) == null ? void 0 : _a.openList();
           })
@@ -5959,15 +5981,6 @@ This will fail in production if not fixed.`);
         }
         timer = setInterval(audioUpdate, 500);
       });
-      const playClick = () => {
-        if (playerStore.isPlaying) {
-          audioContext2.pause();
-          playerStore.isPlaying = false;
-        } else {
-          audioContext2.play();
-          playerStore.isPlaying = true;
-        }
-      };
       const nextClick = () => {
         indexChange();
       };
@@ -6040,7 +6053,7 @@ This will fail in production if not fixed.`);
         data.currentPage = event.detail.current;
       };
       const searchSinger = async () => {
-        formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:211", "搜索歌手", playerStore.singerId);
+        formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:201", "搜索歌手", playerStore.singerId);
         await playerStore.getSearchSingerInfo();
         uni.redirectTo({
           url: `/pages/mainDetail/mainDetail?type=singer&id=${playerStore.singerId}`
@@ -6049,17 +6062,11 @@ This will fail in production if not fixed.`);
       onUnload(() => {
         clearInterval(timer);
       });
-      uni.setKeepScreenOn({
-        keepScreenOn: true,
-        success: () => {
-          formatAppLog("log", "at pages/musicPlayer/musicPlayer.vue:225", "保持常亮");
-        }
-      });
       const __returned__ = { audioContext: audioContext2, data, playerStore, get timer() {
         return timer;
       }, set timer(v) {
         timer = v;
-      }, playClick, nextClick, prevClick, musicPopupRef, indexChange, orderChange, audioUpdate, backClick, sliderChange, sliderChanging, pageChange, searchSinger, reactive: vue.reactive, ref: vue.ref, get onLoad() {
+      }, nextClick, prevClick, musicPopupRef, indexChange, orderChange, audioUpdate, backClick, sliderChange, sliderChanging, pageChange, searchSinger, reactive: vue.reactive, ref: vue.ref, get onLoad() {
         return onLoad;
       }, get onUnload() {
         return onUnload;
@@ -6075,6 +6082,8 @@ This will fail in production if not fixed.`);
         return audioInstance;
       }, get useMusic() {
         return useMusic;
+      }, get playController() {
+        return playController;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
@@ -6204,7 +6213,7 @@ This will fail in production if not fixed.`);
               vue.createElementVNode("image", {
                 class: "pause",
                 src: `/static/play_${$setup.playerStore.isPlaying ? "pause" : "resume"}.png`,
-                onClick: $setup.playClick
+                onClick: _cache[0] || (_cache[0] = (...args) => $setup.playController && $setup.playController(...args))
               }, null, 8, ["src"]),
               vue.createElementVNode("image", {
                 class: "next",
@@ -6214,7 +6223,7 @@ This will fail in production if not fixed.`);
               vue.createElementVNode("image", {
                 class: "list",
                 src: _imports_2,
-                onClick: _cache[0] || (_cache[0] = ($event) => {
+                onClick: _cache[1] || (_cache[1] = ($event) => {
                   var _a;
                   return (_a = $setup.musicPopupRef) == null ? void 0 : _a.openList();
                 })
@@ -6435,13 +6444,14 @@ This will fail in production if not fixed.`);
         url: "",
         videoInfo: {}
       });
+      formatAppLog("log", "at pages/videoDetail/videoDetail.vue:39", "data.videoInfo.artists=", data.videoInfo.artists);
       onLoad(async (option) => {
         const id = option.id;
         data.id = id;
         getVideoUrl();
         await getVideoInfo();
         getRelatedVideo();
-        formatAppLog("log", "at pages/videoDetail/videoDetail.vue:45", data);
+        formatAppLog("log", "at pages/videoDetail/videoDetail.vue:46", data);
         uni.setNavigationBarTitle({
           title: data.videoInfo.name
         });

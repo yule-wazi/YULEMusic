@@ -13,7 +13,7 @@
 			<image
 				class="pause"
 				:src="`/static/play_${playerStore.isPlaying ? 'pause02' : 'resume02'}.png`"
-				@click="playClick"
+				@click="playController"
 			/>
 			<image class="list" src="/static/play_musicList.png"  @click="musicPopupRef?.openList()" />
 		</view>
@@ -25,19 +25,11 @@
 import { ref } from 'vue';
 import usePlayer from '../../store/module/player';
 import { audioInstance } from '../../utils/audioInstance';
+import playController from '../../utils/playController';
 const audioContext = audioInstance()
 const playerStore = usePlayer()
 const album = ref(null)
-// 播放暂停切换
-const playClick = () => {
-	if(playerStore.isPlaying) {
-	    audioContext.pause()
-	    playerStore.isPlaying = false
-	} else {
-	    audioContext.play()
-	    playerStore.isPlaying = true
-	}
-}
+
 
 const songClick = () => {
 	uni.navigateTo({

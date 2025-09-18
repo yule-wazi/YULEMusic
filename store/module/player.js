@@ -54,6 +54,13 @@ const usePlayer = defineStore('player', {
 		//获取歌曲&播放
 		async playSong(id) {
 			this.isPlaying = true
+			// 保持屏幕常亮
+			uni.setKeepScreenOn({
+				keepScreenOn: true,
+				success: () => {
+					console.log('跳转歌曲，保持常亮');
+				}
+			})
 			const proxyRes = await fetchSongProxyUrl(id)
 			try {
 				if(proxyRes.data.code !== 200) {

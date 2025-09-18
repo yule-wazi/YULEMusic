@@ -54,7 +54,7 @@
 						<image 
 							class="pause"
 							:src="`/static/play_${playerStore.isPlaying ? 'pause' : 'resume'}.png`"
-							@click="playClick"
+							@click="playController"
 						/>
 						<image class="next" src="/static/play_next.png" @click="nextClick"/>
 						<image class="list" src="/static/play_music.png" @click="musicPopupRef?.openList()" />
@@ -88,6 +88,7 @@ import { formatPlayTime } from '@/utils/formatView.js'
 import { throttle } from '../../utils/throttle';
 import { audioInstance } from '../../utils/audioInstance';
 import useMusic from '../../store/module/mainMusic';
+import playController from '../../utils/playController';
 const audioContext = audioInstance()
 const data = reactive({
 	id: 0,
@@ -109,23 +110,12 @@ onLoad(async (options) => {
 	data.contentHeight = contentHeight - 44
 	// 获取歌曲
 	if(id) {
-		// getSong(id)
 		playerStore.playSong(id)
 	} else {
 		playerStore.isShow = true
 	}
 	timer = setInterval(audioUpdate, 500)
 })
-//播放暂停切换
-const playClick = () => {
-    if(playerStore.isPlaying) {
-      audioContext.pause()
-	  playerStore.isPlaying = false
-    } else {
-      audioContext.play()
-	  playerStore.isPlaying = true
-    }
-  }
 // 下一首
 const nextClick = () => {
 	indexChange()
@@ -217,15 +207,6 @@ const searchSinger = async () => {
 onUnload(() => {
 	clearInterval(timer)
 })
-
-// 保持屏幕常亮
-uni.setKeepScreenOn({
-	keepScreenOn: true,
-	success: () => {
-		console.log('保持常亮');
-	}
-})
-
 </script>
 
 <style lang="scss">

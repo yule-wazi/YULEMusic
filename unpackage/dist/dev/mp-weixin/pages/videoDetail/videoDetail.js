@@ -10,13 +10,14 @@ const _sfc_main = {
       url: "",
       videoInfo: {}
     });
+    common_vendor.index.__f__("log", "at pages/videoDetail/videoDetail.vue:39", "data.videoInfo.artists=", data.videoInfo.artists);
     common_vendor.onLoad(async (option) => {
       const id = option.id;
       data.id = id;
       getVideoUrl();
       await getVideoInfo();
       getRelatedVideo();
-      common_vendor.index.__f__("log", "at pages/videoDetail/videoDetail.vue:45", data);
+      common_vendor.index.__f__("log", "at pages/videoDetail/videoDetail.vue:46", data);
       common_vendor.index.setNavigationBarTitle({
         title: data.videoInfo.name
       });

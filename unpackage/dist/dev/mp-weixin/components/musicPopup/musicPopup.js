@@ -67,26 +67,25 @@ const _sfc_main = {
       { label: "60分钟", value: 36e5 },
       { label: "90分钟", value: 54e5 }
     ];
-    const timerDuration = common_vendor.ref(0);
     __expose({
       openList
     });
     let timer = null;
     const timerClick = (index) => {
-      playerStore.timerActive = index;
-      timerPopup.value.close();
-      timerDuration.value = timerList[index].value;
       if (timer) {
         clearInterval(timer);
       }
+      playerStore.timerActive = index;
+      timerPopup.value.close();
+      playerStore.timerDuration = timerList[index].value;
       if (index) {
         timer = setInterval(setTimer, 1e3);
       }
     };
     const setTimer = () => {
-      timerDuration.value -= 1e3;
-      if (!timerDuration.value) {
-        common_vendor.index.__f__("log", "at components/musicPopup/musicPopup.vue:137", "时间到了");
+      playerStore.timerDuration -= 1e3;
+      if (playerStore.timerDuration <= 0) {
+        common_vendor.index.__f__("log", "at components/musicPopup/musicPopup.vue:136", "时间到了");
         audioContext.pause();
         playerStore.isPlaying = false;
         clearInterval(timer);
@@ -94,7 +93,7 @@ const _sfc_main = {
         common_vendor.index.setKeepScreenOn({
           keepScreenOn: false,
           success: () => {
-            common_vendor.index.__f__("log", "at components/musicPopup/musicPopup.vue:145", "关闭常亮");
+            common_vendor.index.__f__("log", "at components/musicPopup/musicPopup.vue:144", "关闭常亮");
           }
         });
       }
@@ -127,7 +126,7 @@ const _sfc_main = {
             a: common_vendor.t(item.label),
             b: common_vendor.unref(playerStore).timerActive === index && index
           }, common_vendor.unref(playerStore).timerActive === index && index ? {
-            c: common_vendor.t(common_vendor.unref(utils_formatView.formatPlayTime)(timerDuration.value))
+            c: common_vendor.t(common_vendor.unref(utils_formatView.formatPlayTime)(common_vendor.unref(playerStore).timerDuration))
           } : {}, {
             d: index === common_vendor.unref(playerStore).timerActive
           }, index === common_vendor.unref(playerStore).timerActive ? {

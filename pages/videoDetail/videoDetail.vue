@@ -36,6 +36,7 @@ const data = reactive({
 	url: '',
 	videoInfo: {}
 })	
+console.log('data.videoInfo.artists=', data.videoInfo.artists);
 onLoad(async (option) => {
 	const id = option.id
 	data.id = id

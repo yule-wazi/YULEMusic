@@ -106,7 +106,7 @@ const popItem = (index) => {
 // 定时选项
 const timerList = [
 	{label: '不开启', value: 0},
-	{label: '3秒钟', value: 3000},
+	// {label: '3秒钟', value: 3000},
 	{label: '15分钟', value: 900000},
 	{label: '30分钟', value: 1800000},
 	{label: '60分钟', value: 3600000},
@@ -145,7 +145,7 @@ const setTimer = () => {
 			}
 		})
 	}
-	console.log('playerStore.timerDuration', playerStore.timerDuration);
+	// console.log('playerStore.timerDuration', playerStore.timerDuration);
 }
 </script>
 
