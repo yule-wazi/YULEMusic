@@ -106,7 +106,7 @@ const popItem = (index) => {
 // 定时选项
 const timerList = [
 	{label: '不开启', value: 0},
-	// {label: '3秒钟', value: 3000},
+	{label: '5秒钟', value: 5000},
 	{label: '15分钟', value: 900000},
 	{label: '30分钟', value: 1800000},
 	{label: '60分钟', value: 3600000},
@@ -116,17 +116,17 @@ defineExpose({
 	openList
 })
 // 选择定时时间
-let timer = null
 const timerClick = (index) => {
 	// 关闭定时器
-	if(timer) {
-		clearInterval(timer)
+	if(playerStore.timerInstance) {
+		clearInterval(playerStore.timerInstance)
+		playerStore.timerInstance = 0
 	}
 	playerStore.timerActive = index
 	timerPopup.value.close()
 	playerStore.timerDuration = timerList[index].value
 	if(index) {
-		timer = setInterval(setTimer, 1000)
+		playerStore.timerInstance = setInterval(setTimer, 1000)
 	}
 }
 // 设置定时器
@@ -136,7 +136,7 @@ const setTimer = () => {
 		console.log('时间到了');
 		audioContext.pause()
 		playerStore.isPlaying = false
-		clearInterval(timer)
+		clearInterval(playerStore.timerInstance)
 		playerStore.timerActive = 0
 		uni.setKeepScreenOn({
 			keepScreenOn: false,

@@ -21,6 +21,7 @@ const usePlayer = defineStore('player', {
 			currentTime: 0,
 			durationTime: 0,
 			timerDuration: 0,
+			timerInstance: 0,
 			sliderLength: 0,
 			scrollToTop: 0,
 			isSlide: false,

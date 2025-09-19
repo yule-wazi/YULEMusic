@@ -3223,6 +3223,7 @@ This will fail in production if not fixed.`);
         currentTime: 0,
         durationTime: 0,
         timerDuration: 0,
+        timerInstance: 0,
         sliderLength: 0,
         scrollToTop: 0,
         isSlide: false,
@@ -3240,7 +3241,7 @@ This will fail in production if not fixed.`);
             let res = await fetchSongDetail(id);
             this.songDetail = res.data.songs[0];
             this.durationTime = res.data.songs[0].dt;
-            formatAppLog("log", "at store/module/player.js:42", res.data);
+            formatAppLog("log", "at store/module/player.js:43", res.data);
             this.singerId = res.data.songs[0].ar[0].id;
             res = await fetchSongLyric(id);
             this.lyrics = res.data.lrc.lyric;
@@ -3257,7 +3258,7 @@ This will fail in production if not fixed.`);
         uni.setKeepScreenOn({
           keepScreenOn: true,
           success: () => {
-            formatAppLog("log", "at store/module/player.js:61", "跳转歌曲，保持常亮");
+            formatAppLog("log", "at store/module/player.js:62", "跳转歌曲，保持常亮");
           }
         });
         const proxyRes = await fetchSongProxyUrl(id);
@@ -3269,8 +3270,8 @@ This will fail in production if not fixed.`);
           const proxyUrl = proxyRes.data.data.url;
           audioContext$1.src = proxyUrl;
         } catch (error) {
-          formatAppLog("log", "at store/module/player.js:73", "报错", error);
-          formatAppLog("log", "at store/module/player.js:74", "启动非代理url");
+          formatAppLog("log", "at store/module/player.js:74", "报错", error);
+          formatAppLog("log", "at store/module/player.js:75", "启动非代理url");
           audioContext$1.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
         }
         await this.getSongs(id);
@@ -4409,7 +4410,7 @@ This will fail in production if not fixed.`);
       };
       const timerList = [
         { label: "不开启", value: 0 },
-        // {label: '3秒钟', value: 3000},
+        { label: "5秒钟", value: 5e3 },
         { label: "15分钟", value: 9e5 },
         { label: "30分钟", value: 18e5 },
         { label: "60分钟", value: 36e5 },
@@ -4418,16 +4419,16 @@ This will fail in production if not fixed.`);
       __expose({
         openList
       });
-      let timer = null;
       const timerClick = (index) => {
-        if (timer) {
-          clearInterval(timer);
+        if (playerStore.timerInstance) {
+          clearInterval(playerStore.timerInstance);
+          playerStore.timerInstance = 0;
         }
         playerStore.timerActive = index;
         timerPopup.value.close();
         playerStore.timerDuration = timerList[index].value;
         if (index) {
-          timer = setInterval(setTimer, 1e3);
+          playerStore.timerInstance = setInterval(setTimer, 1e3);
         }
       };
       const setTimer = () => {
@@ -4436,7 +4437,7 @@ This will fail in production if not fixed.`);
           formatAppLog("log", "at components/musicPopup/musicPopup.vue:136", "时间到了");
           audioContext2.pause();
           playerStore.isPlaying = false;
-          clearInterval(timer);
+          clearInterval(playerStore.timerInstance);
           playerStore.timerActive = 0;
           uni.setKeepScreenOn({
             keepScreenOn: false,
@@ -4446,11 +4447,7 @@ This will fail in production if not fixed.`);
           });
         }
       };
-      const __returned__ = { audioContext: audioContext2, playerStore, popup, timerPopup, openList, orderName, orderChange, changeSong, popItem, timerList, get timer() {
-        return timer;
-      }, set timer(v) {
-        timer = v;
-      }, timerClick, setTimer, computed: vue.computed, ref: vue.ref, get usePlayer() {
+      const __returned__ = { audioContext: audioContext2, playerStore, popup, timerPopup, openList, orderName, orderChange, changeSong, popItem, timerList, timerClick, setTimer, computed: vue.computed, ref: vue.ref, get usePlayer() {
         return usePlayer;
       }, get formatPlayTime() {
         return formatPlayTime;
