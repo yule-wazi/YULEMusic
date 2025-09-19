@@ -53,27 +53,6 @@
 			}
 		}
 	],
-	// "tabBar": {
-	// 	"height": "100rpx",
-	// 	"color": "#7A7E83",
-	// 	"selectedColor": "#3cc51f",
-	// 	"borderStyle": "white",
-	// 	"backgroundColor": "#ffffff",
-	// 	"list": [
-	// 		{
-	// 			"pagePath": "pages/mainMusic/mainMusic",
-	// 			"text": "音乐",
-	// 			"iconPath": "/static/music_normal.png",
-	// 			"selectedIconPath": "/static/music_active.png"
-	// 		},
-	// 		{
-	// 			"pagePath": "pages/mainVideo/mainVideo",
-	// 			"text": "视频",
-	// 			"iconPath": "/static/video_normal.png",
-	// 			"selectedIconPath": "/static/video_active.png"
-	// 		}
-	// 	]
-	// },
 	"easycom": {
 	  "autoscan": true,
 	  "custom": {
